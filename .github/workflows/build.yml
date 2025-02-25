@@ -37,8 +37,8 @@ jobs:
           
       - name: gen repo dir
         run: |
-          mkdir ${{ matrix.release }}/${{ matrix.arch }} -p
-          cp -ra bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk  ${{ matrix.release }}/${{ matrix.arch }}
+          mkdir repo/${{ matrix.release }}/${{ matrix.arch }} -p
+          cp -ra bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
           
       # 上传文件
       - name:  upload luci-app-${{ matrix.package }}
@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: repo-luci-app-${{ matrix.package }}-${{ matrix.arch }}
-          path: ${{ matrix.release }}/${{ matrix.arch }}
+          path: repo
 
   upload:
     name: upload-openwrt-package
@@ -107,6 +107,7 @@ jobs:
             
       - name: gen repo index
         run: |
+          mv repo/*/* repo
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
           find ./repo -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
