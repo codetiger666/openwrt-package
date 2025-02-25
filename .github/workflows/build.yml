@@ -108,9 +108,9 @@ jobs:
       - name: gen repo index
         run: |
           mkdir repo_to_upload
-          find ./repo -maxdepth 1 -mindepth 1 -exec cp -ra {} ./repo_to_upload \;
+          find ./repo -maxdepth 2 -mindepth 2 -exec cp -ra {} ./repo_to_upload \;
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
-          find ./repo_to_upload -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
+          find ./repo_to_upload -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
             gzip -c $dir/Packages > $dir/Packages.gz
           done
