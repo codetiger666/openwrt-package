@@ -90,7 +90,7 @@ jobs:
                         [
                                 {
                                     \"text\": \"${{ matrix.package }} ${{ steps.get-repo.outputs.new_pkg_version }}更新日志\",
-                                    \"url\": \"https://github.com/$repo/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
+                                    \"url\": \"https://github.com/${{ steps.get-repo.outputs.new_pkg_repo }}/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
                                 }
                         ]
                     ]
@@ -115,7 +115,7 @@ jobs:
                         [
                                 {
                                     \"text\": \"${{ matrix.package }} ${{ steps.get-repo.outputs.new_pkg_version }}更新日志\",
-                                    \"url\": \"https://github.com/$repo/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
+                                    \"url\": \"https://github.com/${{ steps.get-repo.outputs.new_pkg_repo }}/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
                                 }
                         ]
                     ]
