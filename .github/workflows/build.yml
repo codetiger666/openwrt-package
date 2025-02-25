@@ -35,12 +35,24 @@ jobs:
           NO_REFRESH_CHECK: true
           V: sc
           
+      - name: gen repo dir
+        run: |
+          mkdir ${{ matrix.release }}/${{ matrix.arch }} -p
+          cp -ra bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk  ${{ matrix.release }}/${{ matrix.arch }}
+          
       # 上传文件
       - name:  upload luci-app-${{ matrix.package }}
         uses: actions/upload-artifact@main
         with:
           name: luci-app-${{ matrix.package }}-${{ matrix.arch }}
           path: bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk
+       
+      # 上传文件
+      - name:  upload luci-app-${{ matrix.package }} repo
+        uses: actions/upload-artifact@main
+        with:
+          name: repo-luci-app-${{ matrix.package }}-${{ matrix.arch }}
+          path: ${{ matrix.release }}/${{ matrix.arch }}
 
   upload:
     name: upload-openwrt-package
@@ -64,7 +76,14 @@ jobs:
       - name: ${{ matrix.package }} download artifact
         uses: actions/download-artifact@main
         with:
+          pattern: luci-*
           path: artifacts
+          
+      - name: ${{ matrix.package }} download rep
+        uses: actions/download-artifact@main
+        with:
+          pattern: repo-*
+          path: repo
           
       - name: ${{ matrix.package }} ${{ steps.get-pkg-version.outputs.pkg_version }} delete same file
         run: |
@@ -85,6 +104,22 @@ jobs:
           tag_name: luci-app-${{ matrix.package }}-${{ steps.get-pkg-version.outputs.pkg_version }}
           files: |
             artifacts/luci-app-${{ matrix.package }}*/*.ipk
+            
+      - name: gen repo index
+        run: |
+          git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
+          find ./repo -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
+            python3 opkg/opkg-make-index $dir > $dir/Packages
+            gzip -c $dir/Packages > $dir/Packages.gz
+          done
+          
+      - name: upload pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true
+          commit_message: Update Openwrt Package
+          publish_dir: ./repo
             
       - name: send tg message
         run: |
