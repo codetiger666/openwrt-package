@@ -72,6 +72,7 @@ jobs:
         id: get-pkg-version
         run: |
           echo "pkg_version=$(grep "PKG_VERSION:=" ${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+          echo "pkg_app_version=$(grep "PKG_VERSION:=" luci-app-${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
 
       - name: ${{ matrix.package }} download artifact
         uses: actions/download-artifact@main
@@ -100,8 +101,6 @@ jobs:
       - name: ${{ matrix.package }} ${{ steps.get-pkg-version.outputs.pkg_version }} Release
         uses: softprops/action-gh-release@v2
         with:
-          name: luci-app-${{ matrix.package }}-${{ steps.get-pkg-version.outputs.pkg_version }}
-          tag_name: luci-app-${{ matrix.package }}-${{ steps.get-pkg-version.outputs.pkg_version }}
           files: |
             artifacts/luci-app-${{ matrix.package }}*/*.ipk
             
