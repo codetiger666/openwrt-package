@@ -107,9 +107,10 @@ jobs:
             
       - name: gen repo index
         run: |
-          find ./repo -mindepth 2 -type f -exec echo mv {} ./repo \;
+          mkdir repo_to_upload
+          find ./repo -maxdepth 1 -mindepth 1 -exec cp -ra {} ./repo_to_upload \;
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
-          find ./repo -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
+          find ./repo_to_upload -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
             gzip -c $dir/Packages > $dir/Packages.gz
           done
@@ -120,7 +121,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force_orphan: true
           commit_message: Update Openwrt Package
-          publish_dir: ./repo
+          publish_dir: ./repo_to_upload
             
       - name: send tg message
         run: |
