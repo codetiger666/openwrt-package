@@ -109,7 +109,7 @@ jobs:
         run: |
           echo "${{ secrets.OPKG_PRIVATE }}" > private.key
           git clone https://github.com/openwrt/usign.git
-          (cd usign && cmake && make)
+          (cd usign && cmake . && make)
           mkdir repo_to_upload
           echo "${{ secrets.OPKG_PUBLIC }}" > repo_to_upload/public.pub
           find ./repo -maxdepth 2 -mindepth 2 -exec cp -ra {} ./repo_to_upload \;
