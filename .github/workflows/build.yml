@@ -99,7 +99,7 @@ jobs:
           }' | sh
 
       - name: ${{ matrix.package }} ${{ steps.get-pkg-version.outputs.pkg_version }} Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@master
         with:
           files: |
             artifacts/luci-app-${{ matrix.package }}*/*.ipk
