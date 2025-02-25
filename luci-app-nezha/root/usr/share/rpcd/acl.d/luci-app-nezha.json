@@ -1,0 +1,24 @@
+{
+    "luci-app-nezha": {
+        "description": "Grant access to nezha procedures",
+        "read": {
+            "uci": [ "nezha" ],
+            "ubus": {
+                "service": [ "list" ]
+            },
+            "file": {
+                "/etc/nezha/agent.yaml": ["read"],
+                "/var/log/nezha.log": ["read"],
+                "/usr/libexec/nezha-call": ["exec"]
+            }
+        },
+        "write": {
+            "uci": [ "nezha" ],
+            "file": {
+                "/etc/nezha/agent.yaml": ["write"],
+                "/var/log/nezha.log": ["write"],
+                "/usr/libexec/nezha-call": ["exec"]
+            }
+        }
+    }
+}

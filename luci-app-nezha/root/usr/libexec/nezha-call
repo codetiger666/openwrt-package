@@ -1,0 +1,15 @@
+#!/bin/sh
+
+logFile=/var/log/nezha.log
+
+case "$1" in
+    version)
+        nezha-agent -v | awk '{print $3}'
+    ;;
+    clear_log)
+        echo -n > "/var/log/nezha.log"
+    ;;
+    get_log)
+        tail -n 1000 $logFile | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'
+    ;;
+esac

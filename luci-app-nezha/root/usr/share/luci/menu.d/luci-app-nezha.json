@@ -1,0 +1,28 @@
+{
+    "admin/services/nezha": {
+        "title": "Nezha Monitoring",
+        "action": {
+            "type": "firstchild"
+        },
+        "depends": {
+            "acl": [ "luci-app-nezha" ],
+            "uci": { "nezha": true }
+        }
+    },
+    "admin/services/nezha/config": {
+        "title": "Config",
+        "order": 10,
+        "action": {
+            "type": "view",
+            "path": "nezha/config"
+        }
+    },
+    "admin/services/nezha/log": {
+        "title": "Log",
+        "order": 20,
+        "action": {
+            "type": "view",
+            "path": "nezha/log"
+        }
+    }
+}

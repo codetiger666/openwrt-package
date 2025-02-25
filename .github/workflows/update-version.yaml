@@ -1,0 +1,124 @@
+name: Update Version
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: ${{ matrix.package }} update version
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - nezha
+          
+    steps:
+      - id: checkout
+        name: ${{ matrix.package }} Checkout
+        uses: actions/checkout@main
+        
+      - name: git init
+        run: |
+          git config --global user.email ${{ secrets.email }}
+          git config --global user.name "codetiger666"
+          git config pull.rebase false
+        
+      - id: get-version
+        name: ${{ matrix.package }}-get-version
+        run: |
+          echo "pkg_version=$(grep "PKG_VERSION:="  ${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+      
+      - id: get-repo
+        name: get-${{ matrix.package }}-repo
+        run: |
+          source scripts/common.sh
+          repo=$(cat package-list | grep ${{ matrix.package }} | awk -F'=' '{print $2}')
+          location=$(cat package-list | grep ${{ matrix.package }} | awk -F'=' '{print $3}')
+          handle=$(cat package-list | grep ${{ matrix.package }} | awk -F'=' '{print $4}')
+          new_version=$(get_latest_version "$location" "$repo")
+          pkgVersion=$(apply_handle "$handle" "$new_version")
+          echo "new_pkg_repo=$repo" >> $GITHUB_OUTPUT
+          echo "new_pkg_tag=$new_version" >> $GITHUB_OUTPUT
+          echo "new_pkg_version=$pkgVersion" >> $GITHUB_OUTPUT
+ 
+      - name: Checkout ${{ matrix.package }}
+        run: |
+          git clone https://github.com/${{ steps.get-repo.outputs.new_pkg_repo }} -b ${{ steps.get-repo.outputs.new_pkg_tag }} newPackage
+          
+      - id: get-new-info
+        name: Get New Info
+        run: |
+          echo "commit_date=$(git -C newPackage log -n 1 --format=%cs)" >> $GITHUB_OUTPUT
+          echo "commit_sha=$(git -C newPackage rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "short_commit_sha=$(git -C newPackage rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          git -C newPackage config tar.xz.command "xz -c"
+          git -C newPackage archive --output=newPackage.tar.xz HEAD
+          echo "checksum=$(sha256sum newPackage/newPackage.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+          rm -rf newPackage
+  
+      - name: update ${{ matrix.package }} Makefile
+        if: ${{ steps.get-version.outputs.pkg_version != steps.get-repo.outputs.new_pkg_version }}
+        run: |
+          sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" ${{ matrix.package }}/Makefile
+          sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${{ steps.get-new-info.outputs.commit_date }}/" ${{ matrix.package }}/Makefile
+          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ steps.get-new-info.outputs.commit_sha }}/" ${{ matrix.package }}/Makefile
+          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.get-new-info.outputs.checksum }}/" ${{ matrix.package }}/Makefile
+          sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${{ steps.get-repo.outputs.new_pkg_version }}/" ${{ matrix.package }}/Makefile
+          git add .
+          git commit -m "${{ matrix.package }} update to ${{ steps.get-repo.outputs.new_pkg_version }}"
+          git push
+          curl -X POST \
+                --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
+                --header 'Accept: */*' \
+                --header 'Accept-Encoding: gzip, deflate, br' \
+                --header 'Connection: keep-alive' \
+                --header 'Content-Type: application/json' \
+                --data "{
+                \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
+                \"text\": \"openwrt: \`${{ matrix.package }}\` 版本:\`${{ steps.get-repo.outputs.new_pkg_version }}\`触发编译\",
+                \"parse_mode\": \"MarkdownV2\",
+                \"reply_markup\": {
+                    \"inline_keyboard\": [
+                        [
+                                {
+                                    \"text\": \"${{ matrix.package }} ${{ steps.get-repo.outputs.new_pkg_version }}更新日志\",
+                                    \"url\": \"https://github.com/$repo/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
+                                }
+                        ]
+                    ]
+                }
+                }"
+          
+      - name: send tg message for not compile
+        if: ${{ steps.get-version.outputs.pkg_version == steps.get-repo.outputs.new_pkg_version }}
+        run: |
+          curl -X POST \
+                --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
+                --header 'Accept: */*' \
+                --header 'Accept-Encoding: gzip, deflate, br' \
+                --header 'Connection: keep-alive' \
+                --header 'Content-Type: application/json' \
+                --data "{
+                \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
+                \"text\": \"openwrt: \`${{ matrix.package }}\` 版本:\`${{ steps.get-repo.outputs.new_pkg_version }}\`已经编译完成\",
+                \"parse_mode\": \"MarkdownV2\",
+                \"reply_markup\": {
+                    \"inline_keyboard\": [
+                        [
+                                {
+                                    \"text\": \"${{ matrix.package }} ${{ steps.get-repo.outputs.new_pkg_version }}更新日志\",
+                                    \"url\": \"https://github.com/$repo/releases/tag/${{ steps.get-repo.outputs.new_pkg_tag }}\"
+                                }
+                        ]
+                    ]
+                }
+                }"
+          
+      - name: Remove workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 3
