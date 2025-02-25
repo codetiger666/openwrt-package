@@ -87,7 +87,7 @@ jobs:
           
       - name: ${{ matrix.package }} ${{ steps.get-pkg-version.outputs.pkg_version }} delete same file
         run: |
-          find . -type f | 
+          find ./artifacts -type f | 
             awk -F/ '{
               filename=$NF;  # 提取文件名
               if (filename in seen) {
@@ -107,7 +107,7 @@ jobs:
             
       - name: gen repo index
         run: |
-          mv repo/*/* repo
+          find ./repo -mindepth 2 -type f -exec echo mv {} ./repo \;
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
           find ./repo -mindepth 1 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
