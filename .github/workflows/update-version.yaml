@@ -103,6 +103,8 @@ jobs:
         run: |
           git clone https://github.com/pymumu/openwrt-smartdns.git --dept=1 smartdns
           git clone https://github.com/pymumu/luci-app-smartdns.git --dept=1
+          rm -rf smartdns/.git*
+          rm -rf luci-app-smartdns/.git*
           git add .
           git commit -m "update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
       
