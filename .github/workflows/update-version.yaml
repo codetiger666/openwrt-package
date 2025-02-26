@@ -105,7 +105,7 @@ jobs:
           git clone https://github.com/pymumu/luci-app-smartdns.git --dept=1
           rm -rf smartdns/.git*
           rm -rf luci-app-smartdns/.git*
-          sed -i 's|include \.\./\.\./luci\.mk|include $(topdir)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
+          sed -i 's|include \.\./\.\./luci\.mk|include $(TOPDIR)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
           git add .
           git commit -m "update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
       
