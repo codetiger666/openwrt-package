@@ -13,6 +13,7 @@ jobs:
       matrix:
         package:
           - nezha
+          - nikki
         arch:
           - aarch64_cortex-a53
           - aarch64_generic

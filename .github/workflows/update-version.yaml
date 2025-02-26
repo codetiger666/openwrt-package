@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         package:
-          - nezha       
+          - nezha
     steps:
       - id: checkout
         name: ${{ matrix.package }} Checkout
@@ -58,6 +58,17 @@ jobs:
           git -C newPackage archive --output=newPackage.tar.xz HEAD
           echo "checksum=$(sha256sum newPackage/newPackage.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
           rm -rf newPackage
+          
+      - name: update nikki
+        continue-on-error: true
+        run: |
+          git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git -b $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name') --single-branch --dept=1 nikki
+          cp -ra nikki/nikki ./
+          cp -ra nikki/luci-app-nikki ./
+          rm -rf nikki
+          git add .
+          git commit -m "update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"
+          git pull && git push
   
       - name: update ${{ matrix.package }} Makefile
         if: ${{ steps.get-version.outputs.pkg_version != steps.get-repo.outputs.new_pkg_version }}
