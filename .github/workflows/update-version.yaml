@@ -69,6 +69,9 @@ jobs:
           git add .
           git commit -m "update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"
           git pull && git push
+          git tag -d v${{ steps.get-version.outputs.pkg_app_version }} || true
+          git tag v${{ steps.get-version.outputs.pkg_app_version }} || true
+          git push origin v${{ steps.get-version.outputs.pkg_app_version }} -f || true
   
       - name: update ${{ matrix.package }} Makefile
         if: ${{ steps.get-version.outputs.pkg_version != steps.get-repo.outputs.new_pkg_version }}
