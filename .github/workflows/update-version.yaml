@@ -62,10 +62,10 @@ jobs:
       - name: update nikki
         continue-on-error: true
         run: |
-          git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git -b $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name') --single-branch --dept=1 nikki
-          cp -ra nikki/nikki ./
-          cp -ra nikki/luci-app-nikki ./
-          rm -rf nikki
+          git clone https://github.com/nikkinikki-org/OpenWrt-nikki.git -b $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name') --single-branch --dept=1 nikki-org
+          cp -ra nikki-org/nikki ./
+          cp -ra nikki-org/luci-app-nikki ./
+          rm -rf nikki-org
           git add .
           git commit -m "update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"
           git pull && git push
