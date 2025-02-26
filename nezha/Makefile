@@ -9,7 +9,7 @@ PKG_SOURCE_URL:=https://github.com/nezhahq/agent.git
 PKG_SOURCE_DATE:=2025-02-09
 PKG_SOURCE_VERSION:=d168c1b6b1d9c860fa302d819028045c1d1203bd
 PKG_MIRROR_HASH:=cffcfad78d18286140d46ba85c113977f7c2aa3445cf2dfd8d8e40c697ac5fc1
-PKG_BUILD_DEPENDS:=golang/host upx/host
+PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
@@ -67,10 +67,6 @@ define Build/Compile
 	# 标准编译流程
 	$(call GoPackage/Build/Compile)
 	echo "编译架构:  $(ARCH)"
-	# UPX压缩阶段
-	(cd $(PKG_BUILD_DIR) && ls -aR)
-	$(STAGING_DIR_HOST)/bin/upx --best --lzma $(PKG_BUILD_DIR)/.go_work/build/bin$(PROGARM_ARCH)/agent
-	(cd $(PKG_BUILD_DIR) && ls -aR)
 endef
 
 define Package/nezha/install

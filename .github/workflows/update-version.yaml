@@ -97,7 +97,7 @@ jobs:
           rm -rf nikki-org
           git add .
           git commit -m "update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
-  
+      
       - name: update smartdns
         continue-on-error: true
         run: |
