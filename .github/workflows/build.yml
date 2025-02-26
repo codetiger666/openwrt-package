@@ -128,7 +128,7 @@ jobs:
                 --header 'Content-Type: application/json' \
                 --data "{
                 \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
-                \"text\": \"\\\\[openwrt-package\\\\] \\\\[✅ 编译完成\\\\]\n版本:\` ${GITHUB_REF_NAME#v}\`\",
+                \"text\": \"\\\\[openwrt\\\\-package\\\\] \\\\[✅ 编译完成\\\\]\n版本:\` ${GITHUB_REF_NAME#v}\`\",
                 \"parse_mode\": \"MarkdownV2\"
                 }"
 
@@ -143,7 +143,7 @@ jobs:
                 --header 'Content-Type: application/json' \
                 --data "{
                 \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
-                \"text\": \"\\\\[openwrt-package\\\\] \\\\[🔴 编译失败\\\\]\n版本:\` ${GITHUB_REF_NAME#v}\`\",
+                \"text\": \"\\\\[openwrt\\\\-package\\\\] \\\\[🔴 编译失败\\\\]\n版本:\` ${GITHUB_REF_NAME#v}\`\",
                 \"parse_mode\": \"MarkdownV2\"
                 }"
 
