@@ -93,7 +93,7 @@ jobs:
                 --header 'Content-Type: application/json' \
                 --data "{
                 \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
-                \"text\": \"\\\\[openwrt-pkages\\\\] \\\\[🟢 触发编译\\\\]\n版本:\`${tag/v}\`\",
+                \"text\": \"\\\\[openwrt-pkages\\\\] \\\\[🟢 触发编译\\\\]\n版本:\`${tag//./\\\\.}\`\",
                 \"parse_mode\": \"MarkdownV2\"
                 }"
           
