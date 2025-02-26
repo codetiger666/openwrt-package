@@ -73,8 +73,8 @@ jobs:
           git commit -m "${{ matrix.package }} update to ${{ steps.get-repo.outputs.new_pkg_version }}"
           git pull || true && git push || true
                
-  get-orther-repo:
-    name: ${{ matrix.package }} update version
+  update-version:
+    name: update version
     runs-on: ubuntu-latest
     needs:
       - get-version
@@ -113,15 +113,8 @@ jobs:
           git pull || true && git push || true
           git tag -d v${{ needs.get-version.outputs.pkg_app_version }} || true
           git tag v${{ needs.get-version.outputs.pkg_app_version }} || true
-          git push origin v${{ needs.get-version.outputs.pkg_app_version }} -f || true
-  
-  update:
-    name: update
-    runs-on: ubuntu-latest     
-    needs:
-      - get-version
-      - get-orther-repo
-    steps:      
+          git push origin v${{ needs.get-version.outputs.pkg_app_version }} -f || true  
+             
       - name: run action
         run: |
           tag=$(curl -sfL "https://api.github.com/repos/codetiger666/openwrt-package/tags" | jq -r '.[0].name')
