@@ -14,6 +14,7 @@ jobs:
         package:
           - nezha
           - nikki
+          - smartdns
         arch:
           - aarch64_cortex-a53
           - aarch64_generic
