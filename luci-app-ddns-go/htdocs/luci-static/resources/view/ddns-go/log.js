@@ -3,13 +3,13 @@
 'require view';
 'require uci';
 'require poll';
-'require tools.ddns-go as ddns-go';
+'require tools.ddns-go as ddnsgo';
 
 return view.extend({
     load: function () {
         return Promise.all([
             uci.load('ddns-go'),
-            ddns-go.getLog()
+            ddnsgo.getLog()
         ]);
     },
     render: function (data) {
@@ -42,7 +42,7 @@ return view.extend({
 
         poll.add(L.bind(function () {
             const option = this;
-            return L.resolveDefault(ddns-go.getLog()).then(function (log) {
+            return L.resolveDefault(ddnsgo.getLog()).then(function (log) {
                 option.getUIElement('log').setValue(log);
             });
         }, o));

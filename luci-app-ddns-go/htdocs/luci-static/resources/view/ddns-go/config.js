@@ -3,7 +3,7 @@
 'require form';
 'require uci';
 'require poll';
-'require tools.ddns-go as ddns-go';
+'require tools.ddns-go as ddnsgo';
 
 function renderStatus(running) {
     return updateStatus(E('input', { id: 'status', style: 'border: unset; font-style: italic; font-weight: bold;', readonly: '' }), running);
@@ -23,8 +23,8 @@ return view.extend({
     load: function () {
         return Promise.all([
             uci.load('ddns-go'),
-            ddns-go.getVersion(),
-            ddns-go.getStatus()
+            ddnsgo.getVersion(),
+            ddnsgo.getStatus()
         ]);
     },
     render: function(data) {
@@ -55,7 +55,7 @@ return view.extend({
         };
         o.rmempty = true;
         poll.add(function () {
-            return L.resolveDefault(ddns-go.getStatus()).then(function (running) {
+            return L.resolveDefault(ddnsgo.getStatus()).then(function (running) {
                 updateStatus(document.getElementById('status'), running);
             });
         });
