@@ -58,7 +58,7 @@ return view.extend({
         o.rmempty = true;
         o.inputtitle = window.location.protocol + '//' + window.location.hostname + ':' + data.port;
         o.onclick = function () {
-            window.open(window.location.protocal + '//' + window.location.hostname + ':' + data.port)
+            window.open(window.location.protocol + '//' + window.location.hostname + ':' + data.port)
         };
 
         s = m.section(form.TypedSection, 'config');
