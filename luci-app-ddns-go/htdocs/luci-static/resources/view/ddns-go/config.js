@@ -28,7 +28,7 @@ return view.extend({
         ]);
     },
     render: function(data) {
-        
+        const data = data[0];
         const version = data[1];
         const running = data[2];
 
@@ -51,12 +51,12 @@ return view.extend({
             });
         });
         
-        o = s.option(form.Button, 'open_dash', _('Open DDNS GO Dashboard'));
+        o = st.option(form.Button, 'open_dash', _('Open DDNS GO Dashboard'));
                 o.inputstyle = 'negative';
         o.depends('enable', '1')
         o.optional = true;
         o.rmempty = true;
-        o.inputtitle = window.location.protocal + '//' + window.location.hostname + ':' + data.port;
+        o.inputtitle = window.location.protocol + '//' + window.location.hostname + ':' + data.port;
         o.onclick = function () {
             window.open(window.location.protocal + '//' + window.location.hostname + ':' + data.port)
         };
