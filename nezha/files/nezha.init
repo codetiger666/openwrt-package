@@ -20,6 +20,8 @@ start_service() {
         config_get_bool enabled "config" "enable" 0
         if [ "$enabled" == 0 ]; then
                 echo "stop nezha agent"
+                sed -i "/#nezha/d" "/etc/crontabs/root" > /dev/null 2>&1
+	            /etc/init.d/cron restart
                 return 1
         fi
         config_get server "config" "server"
