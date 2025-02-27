@@ -23,7 +23,7 @@ return view.extend({
         s = m.section(form.NamedSection, 'log', 'log', _('Log'));
 
         o = s.option(form.Button, 'clear_log', _('Clear Log'));
-                o.inputstyle = 'negative';
+        o.inputstyle = 'negative';
         o.inputtitle = _('Clear Log');
         o.onclick = function () {
             m.lookupOption('ddns-go.log._app_log')[0].getUIElement('log').setValue('');
