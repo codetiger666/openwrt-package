@@ -4,59 +4,42 @@ START=99
 USE_PROCD=1
 
 # permission
-nezha_user="nezha"
-nezha_group="nezha"
+nezha_user="ddns-go"
+nezha_group="ddns-go"
 
 # paths
-home_dir="/etc/nezha"
-config_file="$home_dir/agent.yaml"
-log_file="/var/log/nezha.log"
+home_dir="/etc/ddns-go"
+config_file="$home_dir/config.yaml"
+log_file="/var/log/ddns-go.log"
 
 start_service() {
 
-        config_load nezha
+        config_load ddns-go
 
         local enabled
         config_get_bool enabled "config" "enable" 0
         if [ "$enabled" == 0 ]; then
-                echo "stop nezha agent"
+                echo "stop ddns go"
                 return 1
         fi
-        config_get server "config" "server"
-        config_get_bool command_execute "config" "command_execute" 0
-        config_get_bool insecure_tls "config" "insecure_tls" 0
-        config_get_bool tls "config" "tls" 1
-        config_get_bool nat "config" "nat" 1
-        config_get uuid "config" "uuid"
-        config_get secret "config" "secret"
-        config_get send_query "config" "send_query"
+        config_get port "config" "port"
 
-        change_config server $server
-        change_config_bool disable_command_execute $([ "$command_execute" == 1 ] && echo "false" || echo "true")
-        change_config_bool insecure_tls $([ "$insecure_tls" == 1 ] && echo "true" || echo "false")
-        change_config_bool tls $([ "$tls" == 1 ] && echo "true" || echo "false")
-        change_config_bool disable_send_query $([ "$send_query" == 1 ] && echo "false" || echo "true")
-        change_config_bool disable_nat $([ "$nat" == 1 ] && echo "false" || echo "true")
-        change_config uuid $uuid
-        change_config client_secret $secret
+        procd_open_instance ddns-go
 
-
-        procd_open_instance nezha
-
-        procd_set_param command /bin/sh -c "nezha-agent -c $config_file > $log_file 2>&1"
+        procd_set_param command /bin/sh -c "ddns-go -c $config_file -l $port > $log_file 2>&1"
 
         procd_close_instance
+        
+        echo "0 5 * * * /etc/ddns-go/scripts.sh clear_log_cron #ddns-go" >> "/etc/crontabs/root"
+		/etc/init.d/cron restart
 
 }
 
-change_config () {
-        name="$1" value="$2" yq -M -i '.[strenv(name)] = strenv(value)' "$config_file"
-}
-
-change_config_bool () {
-        name="$1" value="$2" yq -M -i '.[strenv(name)] = (env(value) == "true")' "$config_file"
+service_stopped() {
+        sed -i "/#ddns-go/d" "/etc/crontabs/root" > /dev/null 2>&1
+	    /etc/init.d/cron restart
 }
 
 service_triggers() {
-        procd_add_reload_trigger "nezha"
+        procd_add_reload_trigger "ddns-go"
 }

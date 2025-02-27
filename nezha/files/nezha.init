@@ -46,7 +46,15 @@ start_service() {
         procd_set_param command /bin/sh -c "nezha-agent -c $config_file > $log_file 2>&1"
 
         procd_close_instance
+        
+        echo "0 5 * * * /etc/nezha/scripts.sh clear_log_cron #nezha" >> "/etc/crontabs/root"
+		/etc/init.d/cron restart
 
+}
+
+service_stopped() {
+        sed -i "/#nezha/d" "/etc/crontabs/root" > /dev/null 2>&1
+	    /etc/init.d/cron restart
 }
 
 change_config () {

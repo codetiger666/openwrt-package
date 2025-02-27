@@ -75,6 +75,7 @@ define Package/nezha/install
 
 	$(INSTALL_DIR) $(1)/etc/nezha
 	$(INSTALL_DATA) $(CURDIR)/files/agent.yaml $(1)/etc/nezha/agent.yaml
+	$(INSTALL_BIN) $(CURDIR)/files/scripts.sh $(1)/etc/nezha/scripts.sh
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) $(CURDIR)/files/nezha.conf $(1)/etc/config/nezha

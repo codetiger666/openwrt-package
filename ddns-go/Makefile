@@ -65,6 +65,7 @@ define Package/ddns-go/install
 
 	$(INSTALL_DIR) $(1)/etc/ddns-go
 	$(INSTALL_DATA) $(CURDIR)/files/config.yaml $(1)/etc/ddns-go/config.yaml
+	$(INSTALL_BIN) $(CURDIR)/files/scripts.sh $(1)/etc/ddns-go/scripts.sh
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) $(CURDIR)/files/ddns-go.conf $(1)/etc/config/ddns-go

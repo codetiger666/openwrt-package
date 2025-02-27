@@ -4,7 +4,7 @@ logFile=/var/log/ddns-go.log
 
 case "$1" in
     version)
-        ddns-go -v | awk '{print $3}'
+        ddns-go -v
     ;;
     clear_log)
         echo -n > "$logFile"
