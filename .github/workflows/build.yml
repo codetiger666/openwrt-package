@@ -76,7 +76,7 @@ jobs:
         if: ${{ matrix.arch == 'aarch64_cortex-a53' }} 
         run: |
           package=${{ matrix.package }}
-          package=$(echo $package | 's/-/\\\\-/g')
+          package=$(echo $package | sed 's/-/\\\\-/g')
           version=${{ steps.get-version.outputs.pkg_version }}
           version=$(echo $version | sed 's/\./\\\\./g')
           curl -X POST \
