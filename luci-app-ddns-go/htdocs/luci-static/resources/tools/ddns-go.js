@@ -27,7 +27,7 @@ return baseclass.extend({
 
     getStatus: async function () {
         try {
-            return (await this.callServiceList('ddns-go'))['nezha']['instances']['ddns-go']['running'];
+            return (await this.callServiceList('ddns-go'))['ddns-go']['instances']['ddns-go']['running'];
         } catch (ignored) {
             return false;
         }

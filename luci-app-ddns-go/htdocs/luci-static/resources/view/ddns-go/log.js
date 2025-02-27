@@ -27,7 +27,7 @@ return view.extend({
         o.inputtitle = _('Clear Log');
         o.onclick = function () {
             m.lookupOption('ddns-go.log._app_log')[0].getUIElement('log').setValue('');
-            return ddns-go.clearLog();
+            return ddnsgo.clearLog();
         };
 
         o = s.option(form.TextValue, '_app_log');

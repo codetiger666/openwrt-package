@@ -24,3 +24,6 @@ msgstr "运行状态"
 
 msgid "Clear Log"
 msgstr "清空日志"
+
+msgid "Open DDNS GO Dashboard"
+msgstr "打开DDNS GO后台"

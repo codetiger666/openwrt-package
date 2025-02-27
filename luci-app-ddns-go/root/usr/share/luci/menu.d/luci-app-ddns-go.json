@@ -1,6 +1,6 @@
 {
     "admin/services/ddns-go": {
-        "title": "ddns go",
+        "title": "DDNS-GO",
         "action": {
             "type": "firstchild"
         },

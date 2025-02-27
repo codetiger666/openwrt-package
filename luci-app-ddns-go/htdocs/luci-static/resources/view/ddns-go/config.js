@@ -28,14 +28,38 @@ return view.extend({
         ]);
     },
     render: function(data) {
+        
         const version = data[1];
         const running = data[2];
 
-
-        let m, s, o;
+        let m, s, st, o;
 
         m = new form.Map('ddns-go', _('DDNS-GO'),
             _('Automatically obtain your public IPv4 or IPv6 address and resolve it to the corresponding domain name service.'));
+        
+        st = m.section(form.TypedSection, 'config');
+        st.anonymous = true;
+
+        o = st.option(form.DummyValue, 'status', _('Status'));
+        o.cfgvalue = function () {
+            return renderStatus(running);
+        };
+        o.rmempty = true;
+        poll.add(function () {
+            return L.resolveDefault(ddnsgo.getStatus()).then(function (running) {
+                updateStatus(document.getElementById('status'), running);
+            });
+        });
+        
+        o = s.option(form.Button, 'open_dash', _('Open DDNS GO Dashboard'));
+                o.inputstyle = 'negative';
+        o.depends('enable', '1')
+        o.optional = true;
+        o.rmempty = true;
+        o.inputtitle = window.location.protocal + '//' + window.location.hostname + ':' + data.port;
+        o.onclick = function () {
+            window.open(window.location.protocal + '//' + window.location.hostname + ':' + data.port)
+        };
 
         s = m.section(form.TypedSection, 'config');
         s.anonymous = true;
@@ -48,17 +72,6 @@ return view.extend({
         o.default = version;
         o.rmempty = true;
         o.readonly = true;
-
-        o = s.option(form.DummyValue, 'status', _('Status'));
-        o.cfgvalue = function () {
-            return renderStatus(running);
-        };
-        o.rmempty = true;
-        poll.add(function () {
-            return L.resolveDefault(ddnsgo.getStatus()).then(function (running) {
-                updateStatus(document.getElementById('status'), running);
-            });
-        });
 
         o = s.option(form.Value, 'port', '*' + ' ' + _('Port'));
         o.default = '9876';
