@@ -15,6 +15,7 @@ jobs:
           - nezha
           - nikki
           - smartdns
+          - ddns-go
         arch:
           - aarch64_cortex-a53
           - aarch64_generic
@@ -27,13 +28,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Build
         uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           EXTRA_FEEDS: "src-git|upx|https://github.com/kuoruan/openwrt-upx.git;master"
-          FEEDNAME: ${{ matrix.package }}
           PACKAGES: luci-app-${{ matrix.package }}
           NO_REFRESH_CHECK: true
           V: sc
@@ -41,14 +41,14 @@ jobs:
       - name: gen repo dir
         run: |
           mkdir repo/${{ matrix.release }}/${{ matrix.arch }} -p
-          cp -ra bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
+          cp -ra bin/packages/${{ matrix.arch }}/action/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
           
       # 上传文件
       - name:  upload luci-app-${{ matrix.package }}
         uses: actions/upload-artifact@main
         with:
           name: luci-app-${{ matrix.package }}-${{ matrix.arch }}
-          path: bin/packages/${{ matrix.arch }}/${{ matrix.package }}/*.ipk
+          path: bin/packages/${{ matrix.arch }}/action/*.ipk
        
       # 上传文件
       - name:  upload luci-app-${{ matrix.package }} repo

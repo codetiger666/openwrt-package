@@ -1,0 +1,15 @@
+#!/bin/sh
+
+logFile=/var/log/ddns-go.log
+
+case "$1" in
+    version)
+        ddns-go -v | awk '{print $3}'
+    ;;
+    clear_log)
+        echo -n > "$logFile"
+    ;;
+    get_log)
+        tail -n 1000 $logFile | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'
+    ;;
+esac
