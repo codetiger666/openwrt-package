@@ -43,14 +43,28 @@ jobs:
           mkdir repo/${{ matrix.release }}/${{ matrix.arch }} -p
           cp -ra bin/packages/${{ matrix.arch }}/action/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
           
-      # 上传文件
+      # 上传编译文件
       - name:  upload luci-app-${{ matrix.package }}
         uses: actions/upload-artifact@main
         with:
           name: luci-app-${{ matrix.package }}-${{ matrix.arch }}
-          path: bin/packages/${{ matrix.arch }}/action/*.ipk
-       
-      # 上传文件
+          path: bin/
+      
+      - id: get-version
+        name: ${{ matrix.package }}-get-version
+        run: |
+          echo "pkg_version=$(grep "PKG_VERSION:="  ${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+          echo "pkg_app_version=$(grep "PKG_VERSION:=" luci-app-${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+
+      - name: Release
+        uses: softprops/action-gh-release@master
+        continue-on-error: true
+        with:
+          tag_name: ${{ matrix.package }}: ${{ steps.get-version.outputs.pkg_version }}
+          files: |
+            bin/packages/${{ matrix.arch }}/action/*.ipk
+      
+      # 上传pages文件
       - name:  upload luci-app-${{ matrix.package }} repo
         uses: actions/upload-artifact@main
         with:
@@ -67,37 +81,12 @@ jobs:
         with:
           fetch-depth: 0
               
-      - name: download artifact
-        uses: actions/download-artifact@main
-        with:
-          pattern: luci-*
-          path: artifacts
-          
       - name: download rep
         uses: actions/download-artifact@main
         with:
           pattern: repo-*
           path: repo
           
-      - name: delete same file
-        run: |
-          find ./artifacts -type f | 
-            awk -F/ '{
-              filename=$NF;  # 提取文件名
-              if (filename in seen) {
-                print "rm \"" $0 "\"";
-              } else {
-                seen[filename]=1;
-              }
-          }' | sh
-
-      - name: Release
-        uses: softprops/action-gh-release@master
-        continue-on-error: true
-        with:
-          files: |
-            artifacts/luci-app-*/*.ipk
-            
       - name: gen repo index
         run: |
           echo "${{ secrets.OPKG_PRIVATE }}" > private.key
