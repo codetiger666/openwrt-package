@@ -102,10 +102,13 @@ jobs:
       - name: update smartdns
         continue-on-error: true
         run: |
-          git clone https://github.com/pymumu/openwrt-smartdns.git --dept=1 smartdns
-          git clone https://github.com/pymumu/luci-app-smartdns.git --dept=1
-          rm -rf smartdns/.git*
-          rm -rf luci-app-smartdns/.git*
+          git clone https://github.com/pymumu/openwrt-smartdns.git --dept=1 smartdns1
+          git clone https://github.com/pymumu/luci-app-smartdns.git --dept=1 luci-app-smartdns1
+          rm -rf smartdns1/.git*
+          rm -rf luci-app-smartdns1/.git*
+          cp -ra smartdns1/* smartdns
+          cp -ra luci-app-smartdns1/* luci-app-smartdns
+          rm -rf smartdns1 luci-app-smartdns1
           sed -i 's|include \.\./\.\./luci\.mk|include $(TOPDIR)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
           git add .
           git commit -m "update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
