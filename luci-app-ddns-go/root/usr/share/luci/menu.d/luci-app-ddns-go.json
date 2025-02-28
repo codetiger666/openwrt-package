@@ -1,0 +1,28 @@
+{
+    "admin/services/ddns-go": {
+        "title": "DDNS-GO",
+        "action": {
+            "type": "firstchild"
+        },
+        "depends": {
+            "acl": [ "luci-app-ddns-go" ],
+            "uci": { "ddns-go": true }
+        }
+    },
+    "admin/services/ddns-go/config": {
+        "title": "Config",
+        "order": 10,
+        "action": {
+            "type": "view",
+            "path": "ddns-go/config"
+        }
+    },
+    "admin/services/ddns-go/log": {
+        "title": "Log",
+        "order": 20,
+        "action": {
+            "type": "view",
+            "path": "ddns-go/log"
+        }
+    }
+}

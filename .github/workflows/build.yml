@@ -1,0 +1,158 @@
+name: Build Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.package }}-${{ matrix.arch }}-${{ matrix.release }} build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - nezha
+          - nikki
+          - smartdns
+          - ddns-go
+        arch:
+          - aarch64_cortex-a53
+          - aarch64_generic
+          - mipsel_24kc
+          - x86_64
+        release:
+          - openwrt-24.10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: openwrt/gh-action-sdk@main
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
+          EXTRA_FEEDS: "src-git|upx|https://github.com/kuoruan/openwrt-upx.git;master"
+          PACKAGES: luci-app-${{ matrix.package }}
+          NO_REFRESH_CHECK: true
+          V: sc
+          
+      - name: gen repo dir
+        run: |
+          mkdir repo/${{ matrix.release }}/${{ matrix.arch }} -p
+          cp -ra bin/packages/${{ matrix.arch }}/action/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
+          
+      # 上传编译文件
+      - name:  upload luci-app-${{ matrix.package }}
+        uses: actions/upload-artifact@main
+        with:
+          name: luci-app-${{ matrix.package }}-${{ matrix.arch }}
+          path: bin/
+      
+      - id: get-version
+        name: ${{ matrix.package }}-get-version
+        run: |
+          echo "pkg_version=$(grep "PKG_VERSION:="  ${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+          echo "pkg_app_version=$(grep "PKG_VERSION:=" luci-app-${{ matrix.package }}/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+
+      - name: Release
+        uses: softprops/action-gh-release@master
+        continue-on-error: true
+        with:
+          tag_name: "${{ matrix.package }}-${{ steps.get-version.outputs.pkg_version }}"
+          files: |
+            bin/packages/${{ matrix.arch }}/action/*.ipk
+      
+      # 上传pages文件
+      - name:  upload luci-app-${{ matrix.package }} repo
+        uses: actions/upload-artifact@main
+        with:
+          name: repo-luci-app-${{ matrix.package }}-${{ matrix.arch }}
+          path: repo
+      
+      - name: send tg message
+        continue-on-error: true
+        if: ${{ matrix.arch == 'aarch64_cortex-a53' }} 
+        run: |
+          package=${{ matrix.package }}
+          package=$(echo $package | sed 's/-/\\\\-/g')
+          version=${{ steps.get-version.outputs.pkg_version }}
+          version=$(echo $version | sed 's/\./\\\\./g')
+          curl -X POST \
+                --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
+                --header 'Accept: */*' \
+                --header 'Accept-Encoding: gzip, deflate, br' \
+                --header 'Connection: keep-alive' \
+                --header 'Content-Type: application/json' \
+                --data "{
+                \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
+                \"text\": \"\\\\[openwrt\\\\: $package\\\\] \\\\[✅ 编译完成\\\\]\n版本:\` $version\`\",
+                \"parse_mode\": \"MarkdownV2\"
+                }"
+      
+      - name: send tg message
+        continue-on-error: true
+        if: ${{ matrix.arch == 'aarch64_cortex-a53' }} && failure()
+        run: |
+          package=${{ matrix.package }}
+          package=$(echo $package | 's/-/\\\\-/g')
+          version=${{ steps.get-version.outputs.pkg_version }}
+          version=$(echo $version | sed 's/\./\\\\./g')
+          curl -X POST \
+                --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
+                --header 'Accept: */*' \
+                --header 'Accept-Encoding: gzip, deflate, br' \
+                --header 'Connection: keep-alive' \
+                --header 'Content-Type: application/json' \
+                --data "{
+                \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
+                \"text\": \"\\\\[openwrt\\\\: $package\\\\] \\\\[🔴 编译失败\\\\]\n版本:\` $version\`\",
+                \"parse_mode\": \"MarkdownV2\"
+                }"
+                
+  upload:
+    name: upload-openwrt-package
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+              
+      - name: download rep
+        uses: actions/download-artifact@main
+        with:
+          pattern: repo-*
+          path: repo
+          
+      - name: gen repo index
+        run: |
+          echo "${{ secrets.OPKG_PRIVATE }}" > private.key
+          git clone https://github.com/openwrt/usign.git
+          (cd usign && cmake . && make)
+          mkdir repo_to_upload
+          echo "${{ secrets.OPKG_PUBLIC }}" > repo_to_upload/a6a65dcebb238998
+          find ./repo -maxdepth 2 -mindepth 2 -exec cp -ra {} ./repo_to_upload \;
+          git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
+          find ./repo_to_upload -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
+            python3 opkg/opkg-make-index $dir > $dir/Packages
+            gzip -c $dir/Packages > $dir/Packages.gz
+            usign/usign -S -m $dir/Packages -s private.key
+          done
+          
+      - name: upload pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true
+          commit_message: Update Openwrt Package
+          publish_dir: ./repo_to_upload
+            
+      - name: Remove workflow runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 3
+          

@@ -1,0 +1,32 @@
+msgid "DDNS-GO"
+msgstr "DDNS-GO"
+
+msgid "Automatically obtain your public IPv4 or IPv6 address and resolve it to the corresponding domain name service."
+msgstr "自动获得你的公网 IPv4 或 IPv6 地址，并解析到对应的域名服务。"
+
+msgid "Enable"
+msgstr "启用"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "Port"
+msgstr "监听端口"
+
+msgid "Config"
+msgstr "插件配置"
+
+msgid "Log"
+msgstr "日志"
+
+msgid "Status"
+msgstr "运行状态"
+
+msgid "Clear Log"
+msgstr "清空日志"
+
+msgid "Open DDNS GO Dashboard"
+msgstr "打开DDNS GO后台"
+
+msgid "Service Not Running!"
+msgstr "服务未运行!"

@@ -1,0 +1,44 @@
+msgid "Nezha Monitoring"
+msgstr "哪吒监控"
+
+msgid "Open-source, lightweight, and easy-to-use server monitoring and operation tool"
+msgstr "开源、轻量、易用的服务器监控与运维工具"
+
+msgid "Enable"
+msgstr "启用"
+
+msgid "Server address"
+msgstr "服务器地址"
+
+msgid "Server Secret"
+msgstr "客户端密钥"
+
+msgid "Command Execute"
+msgstr "允许命令执行"
+
+msgid "Send Query"
+msgstr "允许执行PING"
+
+msgid "Insecure Tls"
+msgstr "允许不安全的Tls"
+
+msgid "Nat"
+msgstr "允许内网穿透"
+
+msgid "Tls"
+msgstr "Tls"
+
+msgid "Uuid"
+msgstr "Uuid"
+
+msgid "Config"
+msgstr "插件配置"
+
+msgid "Log"
+msgstr "日志"
+
+msgid "Status"
+msgstr "运行状态"
+
+msgid "Clear Log"
+msgstr "清空日志"

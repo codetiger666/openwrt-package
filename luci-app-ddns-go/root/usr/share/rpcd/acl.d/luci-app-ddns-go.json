@@ -1,0 +1,24 @@
+{
+    "luci-app-ddns-go": {
+        "description": "Grant access to ddns go procedures",
+        "read": {
+            "uci": [ "ddns-go" ],
+            "ubus": {
+                "service": [ "list" ]
+            },
+            "file": {
+                "/etc/ddns-go/config.yaml": ["read"],
+                "/var/log/ddns-go.log": ["read"],
+                "/usr/libexec/ddns-go-call": ["exec"]
+            }
+        },
+        "write": {
+            "uci": [ "ddns-go" ],
+            "file": {
+                "/etc/ddns-go/config.yaml": ["write"],
+                "/var/log/ddns-go.log": ["write"],
+                "/usr/libexec/ddns-go-call": ["exec"]
+            }
+        }
+    }
+}

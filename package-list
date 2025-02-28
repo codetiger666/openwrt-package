@@ -1,0 +1,2 @@
+nezha=nezhahq/agent=release=sed 's/v//'
+ddns-go=jeessy2/ddns-go=release=sed 's/v//'
