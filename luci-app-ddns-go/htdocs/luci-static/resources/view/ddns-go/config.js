@@ -30,7 +30,7 @@ return view.extend({
     render: function(data) {
 		
         const version = data[1];
-        const running = data[2];
+        let running = data[2];
 
         let m, s, st, o;
 

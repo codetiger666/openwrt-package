@@ -6,6 +6,7 @@ USE_PROCD=1
 # paths
 home_dir="/etc/nezha"
 log_file="/var/log/nezha.log"
+config_file="$home_dir/agent.yaml"
 
 start_service() {
 
@@ -15,6 +16,7 @@ start_service() {
     config_get_bool enabled "config" "enable" 0
     if [ "$enabled" == 0 ]; then
             echo "stop nezha agent"
+            $home_dir/nezha.sh stop
             sed -i "/#nezha/d" "/etc/crontabs/root" > /dev/null 2>&1
             /etc/init.d/cron restart
             return 1
@@ -54,7 +56,8 @@ start_service() {
 
 }
 
-service_stopped() {
+stop_service() {
+    $home_dir/nezha.sh stop
     sed -i "/#nezha/d" "/etc/crontabs/root" > /dev/null 2>&1
     /etc/init.d/cron restart
 }
