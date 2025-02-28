@@ -97,7 +97,7 @@ jobs:
           cp -ra nikki-org/luci-app-nikki ./
           rm -rf nikki-org
           git add .
-          git commit -m "update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
+          git commit -m "feat: update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
       
       - name: update smartdns
         continue-on-error: true
@@ -111,7 +111,7 @@ jobs:
           rm -rf smartdns1 luci-app-smartdns1
           sed -i 's|include \.\./\.\./luci\.mk|include $(TOPDIR)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
           git add .
-          git commit -m "update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
+          git commit -m "feat: update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
       
       - name: push and handle tag
         run: |
