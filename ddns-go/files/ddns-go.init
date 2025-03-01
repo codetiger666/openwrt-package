@@ -44,6 +44,11 @@ stop_service() {
     /etc/init.d/cron restart
 }
 
+reload_service () {
+    stop
+    start
+}
+
 service_triggers() {
     procd_add_reload_trigger "ddns-go"
 }

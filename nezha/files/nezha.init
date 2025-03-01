@@ -62,6 +62,11 @@ stop_service() {
     /etc/init.d/cron restart
 }
 
+reload_service () {
+    stop
+    start
+}
+
 change_config () {
     name="$1" value="$2" yq -M -i '.[strenv(name)] = strenv(value)' "$config_file"
 }
