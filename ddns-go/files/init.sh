@@ -3,6 +3,7 @@
 # log file
 touch /var/log/ddns-go.log
 chown -R ddns-go:ddns-go /var/log/ddns-go.log
+chown -R ddns-go:ddns-go /etc/ddns-go/config.yaml
 
 # check ddns-go.config.init
 init=$(uci -q get ddns-go.config.init); [ -z "$init" ] && return
