@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_VERSION:=1.0.0
+PKG_VERSION:=1.0.1
 
 LUCI_TITLE:=LuCI Support for Nezha Agent
 LUCI_DEPENDS:=+luci-base +nezha +uuidgen
