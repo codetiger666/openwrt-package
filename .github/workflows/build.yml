@@ -60,7 +60,7 @@ jobs:
         uses: softprops/action-gh-release@master
         continue-on-error: true
         with:
-          tag_name: "${{ matrix.package }}-${{ steps.get-version.outputs.pkg_version }}"
+          tag_name: "luci-app-${{ matrix.package }}-${{ steps.get-version.outputs.pkg_app_version }}"
           files: |
             bin/packages/${{ matrix.arch }}/action/*.ipk
       

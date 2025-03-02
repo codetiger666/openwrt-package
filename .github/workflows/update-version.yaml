@@ -71,7 +71,7 @@ jobs:
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.get-new-info.outputs.checksum }}/" ${{ matrix.package }}/Makefile
           sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${{ steps.get-repo.outputs.new_pkg_version }}/" ${{ matrix.package }}/Makefile
           git add .
-          git commit -m "${{ matrix.package }} update to ${{ steps.get-repo.outputs.new_pkg_version }}"
+          git commit -m "chore: ${{ matrix.package }} core bump version to ${{ steps.get-repo.outputs.new_pkg_version }}"
           git pull || true && git push || true
                
   update-version:
@@ -97,7 +97,7 @@ jobs:
           cp -ra nikki-org/luci-app-nikki ./
           rm -rf nikki-org
           git add .
-          git commit -m "feat: update nikki $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
+          git commit -m "chore: nikki bump version to $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
       
       - name: update smartdns
         continue-on-error: true
@@ -111,7 +111,7 @@ jobs:
           rm -rf smartdns1 luci-app-smartdns1
           sed -i 's|include \.\./\.\./luci\.mk|include $(TOPDIR)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
           git add .
-          git commit -m "feat: update smartdns $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
+          git commit -m "chore: smartdns bump version to $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
       
       - name: push and handle tag
         run: |
