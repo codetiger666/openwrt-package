@@ -77,7 +77,7 @@ jobs:
         run: |
           package=${{ matrix.package }}
           package=$(echo $package | sed 's/-/\\\\-/g')
-          version=${{ steps.get-version.outputs.pkg_version }}
+          version=${{ steps.get-version.outputs.pkg_app_version }}
           version=$(echo $version | sed 's/\./\\\\./g')
           curl -X POST \
                 --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
@@ -97,7 +97,7 @@ jobs:
         run: |
           package=${{ matrix.package }}
           package=$(echo $package | 's/-/\\\\-/g')
-          version=${{ steps.get-version.outputs.pkg_version }}
+          version=${{ steps.get-version.outputs.pkg_app_version }}
           version=$(echo $version | sed 's/\./\\\\./g')
           curl -X POST \
                 --url https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage \
