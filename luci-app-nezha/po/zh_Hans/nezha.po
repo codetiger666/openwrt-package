@@ -28,8 +28,8 @@ msgstr "允许内网穿透"
 msgid "Tls"
 msgstr "Tls"
 
-msgid "Uuid"
-msgstr "Uuid"
+msgid "uuid"
+msgstr "uuid"
 
 msgid "Config"
 msgstr "插件配置"
@@ -42,3 +42,6 @@ msgstr "运行状态"
 
 msgid "Clear Log"
 msgstr "清空日志"
+
+msgid "Interfaces To Monitor"
+msgstr "需要监控的网卡"

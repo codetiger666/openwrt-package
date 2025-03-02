@@ -88,9 +88,12 @@ return view.extend({
         o.default = '0';
         o.rmempty = false;
 
-        o = s.option(form.Value, 'uuid', _('Uuid'));
+        o = s.option(form.Value, 'uuid', _('uuid'));
         o.default = '';
         o.rmempty = false;
+
+        o = s.option(form.DynamicList, 'nic_list', _('Interfaces To Monitor'));
+        o.rmempty = true;
         
         return m.render();
     },

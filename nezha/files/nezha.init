@@ -29,6 +29,7 @@ start_service() {
     config_get uuid "config" "uuid"
     config_get secret "config" "secret"
     config_get send_query "config" "send_query"
+    config_get nic_list "config" "nic_list"
 
     change_config server $server
     change_config_bool disable_command_execute $([ "$command_execute" == 1 ] && echo "false" || echo "true")
@@ -38,6 +39,11 @@ start_service() {
     change_config_bool disable_nat $([ "$nat" == 1 ] && echo "false" || echo "true")
     change_config uuid $uuid
     change_config client_secret $secret
+    if [ -n "$nic_list" ]; then
+      config_list_foreach "config" "nic_list" change_config_map_bool 'nic_allowlist' 'true'
+    else
+      delete_config 'nic_allowlist'
+    fi
 
 
     procd_open_instance nezha
@@ -73,6 +79,19 @@ change_config () {
 
 change_config_bool () {
     name="$1" value="$2" yq -M -i '.[strenv(name)] = (env(value) == "true")' "$config_file"
+}
+
+change_config_map_bool () {
+    name="$2" key="$1" value="$3" yq -M -i '.[strenv(name)].[strenv(key)] = (env(value) == "true")' "$config_file"
+}
+
+delete_config () {
+    name="$1" yq -M -i 'del(.[strenv(name)])' "$config_file"
+}
+
+reload_service () {
+    stop
+    start
 }
 
 service_triggers() {
