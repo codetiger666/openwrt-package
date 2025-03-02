@@ -22,15 +22,15 @@ return view.extend({
 
         s = m.section(form.NamedSection, 'log', 'log', _('Log'));
 
-        o = s.option(form.Button, 'clear_log', _('Clear Log'));
-                o.inputstyle = 'negative';
+        o = s.option(form.Button, 'clear_log');
+        o.inputstyle = 'negative';
         o.inputtitle = _('Clear Log');
         o.onclick = function () {
             m.lookupOption('nezha.log._app_log')[0].getUIElement('log').setValue('');
             return nezha.clearLog();
         };
 
-                o = s.option(form.TextValue, '_app_log');
+        o = s.option(form.TextValue, '_app_log');
         o.rows = 25;
         o.wrap = false;
         o.load = function (section_id) {
@@ -43,10 +43,9 @@ return view.extend({
         poll.add(L.bind(function () {
             const option = this;
             return L.resolveDefault(nezha.getLog()).then(function (log) {
-                option.getUIElement('log').setValue(log);
+            option.getUIElement('log').setValue(log);
             });
         }, o));
-
         return m.render();
     },
     handleSaveApply: null,

@@ -40,6 +40,11 @@ return view.extend({
         st = m.section(form.TypedSection, 'config');
         st.anonymous = true;
 
+        o = st.option(form.Value, 'version', _('Version'));
+        o.default = version;
+        o.rmempty = true;
+        o.readonly = true;
+
         o = st.option(form.DummyValue, 'status', _('Status'));
         o.cfgvalue = function () {
             return renderStatus(running);
@@ -69,11 +74,6 @@ return view.extend({
         o = s.option(form.Flag, 'enable', '*' + '  ' + _('Enable'));
         o.default = '0';
         o.rmempty = false;
-
-        o = s.option(form.Value, 'version', _('Version'));
-        o.default = version;
-        o.rmempty = true;
-        o.readonly = true;
 
         o = s.option(form.Value, 'port', '*' + ' ' + _('Port'));
         o.default = '9876';

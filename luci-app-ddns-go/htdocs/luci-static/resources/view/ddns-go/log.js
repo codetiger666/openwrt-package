@@ -22,7 +22,7 @@ return view.extend({
 
         s = m.section(form.NamedSection, 'log', 'log', _('Log'));
 
-        o = s.option(form.Button, 'clear_log', _('Clear Log'));
+        o = s.option(form.Button, 'clear_log');
         o.inputstyle = 'negative';
         o.inputtitle = _('Clear Log');
         o.onclick = function () {
