@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# log file
-touch /var/log/nezha.log
-chown -R nezha:nezha /var/log/nezha.log
+# app file
 chown -R nezha:nezha /etc/nezha/agent.yaml
 
 # check nezha.config.init

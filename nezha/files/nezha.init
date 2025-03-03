@@ -7,6 +7,8 @@ USE_PROCD=1
 home_dir="/etc/nezha"
 log_file="/var/log/nezha.log"
 config_file="$home_dir/agent.yaml"
+run_user="nezha"
+run_group="nezha"
 
 start_service() {
 
@@ -45,11 +47,13 @@ start_service() {
       delete_config 'nic_allowlist'
     fi
 
+    touch $log_file
+    chown -R ${run_user}:${run_group} $log_file
 
     procd_open_instance nezha
 
-    procd_set_param user nezha
-    procd_set_param group nezha
+    procd_set_param user ${run_user}
+    procd_set_param group ${run_group}
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param command $home_dir/nezha.sh start

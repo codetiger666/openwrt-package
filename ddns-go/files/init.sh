@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# log file
-touch /var/log/ddns-go.log
-chown -R ddns-go:ddns-go /var/log/ddns-go.log
+# app file
 chown -R ddns-go:ddns-go /etc/ddns-go/config.yaml
 
 # check ddns-go.config.init
