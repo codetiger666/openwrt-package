@@ -1,0 +1,255 @@
+Lost field SourceName, ddns-go
+Lost field Require-User, ddns-go:ddns-go
+Lost field SourceDateEpoch, 1741482929
+Lost field URL, https://github.com/jeessy2/ddns-go
+Lost field Installed-Size, 11120640
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1740879699
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1740879656
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1741137983
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 61440
+Lost field SourceName, luci-app-smartdns
+Lost field SourceDateEpoch, 1740734502
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 61440
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1740879699
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1740879656
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1741137983
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-smartdns
+Lost field SourceDateEpoch, 1740734502
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-smartdns
+Lost field SourceDateEpoch, 1740734502
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-smartdns
+Lost field SourceDateEpoch, 1740734502
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-smartdns
+Lost field SourceDateEpoch, 1740734502
+Lost field Installed-Size, 20480
+Lost field SourceName, nezha
+Lost field Require-User, nezha:nezha
+Lost field SourceDateEpoch, 1741396187
+Lost field URL, https://github.com/nezhahq/agent
+Lost field Installed-Size, 20480000
+Lost field SourceName, nikki
+Lost field Require-User, root:nikki=1206
+Lost field SourceDateEpoch, 1741048582
+Lost field URL, https://wiki.metacubex.one
+Lost field Installed-Size, 33290240
+Lost field SourceName, smartdns
+Lost field LicenseFiles, LICENSE
+Lost field SourceDateEpoch, 1740734502
+Lost field URL, https://www.github.com/pymumu/smartdns/
+Lost field Installed-Size, 317440
+Package: ddns-go
+Version: 6.9.0-r1
+Depends: libc, ca-bundle, curl, yq
+Section: net
+Architecture: mipsel_24kc
+MD5Sum: 858c0a820db5e16dbf32b7e4e5ef0342
+Size: 3728325
+Filename: ddns-go_6.9.0-r1_mipsel_24kc.ipk
+Source: /feed/ddns-go
+Description: A Dynamic DNS Resolver in Go.
+
+
+Package: luci-app-ddns-go
+Version: 1.0.3-r1
+Depends: libc, luci-base, ddns-go
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 6dcd6dfb15e2d18336d55337ef72aec3
+Size: 3206
+Filename: luci-app-ddns-go_1.0.3-r1_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: LuCI Support for DDNS GO
+
+
+Package: luci-app-nezha
+Version: 1.0.1-r1
+Depends: libc, luci-base, nezha, uuidgen
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 9333d6839512bef7a8a5b2470ee7b58f
+Size: 3199
+Filename: luci-app-nezha_1.0.1-r1_all.ipk
+Source: /feed/luci-app-nezha
+Description: LuCI Support for Nezha Agent
+
+
+Package: luci-app-nikki
+Version: 1.20.1-r1
+Depends: libc, luci-base, nikki
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: b17b014f003aa7b4a455c322b27819fd
+Size: 9392
+Filename: luci-app-nikki_1.20.1-r1_all.ipk
+Source: /feed/luci-app-nikki
+Description: LuCI Support for nikki
+
+
+Package: luci-app-smartdns
+Version: 1.2025.47-r1
+Depends: libc, smartdns
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 35ab40e19a54fa412a186a66dbf18094
+Size: 10560
+Filename: luci-app-smartdns_1.2025.47-r1_all.ipk
+Source: /feed/luci-app-smartdns
+Description: Provides Luci for smartdns
+License: GPL-3.0-or-later
+
+
+Package: luci-i18n-ddns-go-zh-cn
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-ddns-go
+Section: luci
+Architecture: all
+MD5Sum: de8063bf40e0c3a3357ed33ff4ee5884
+Size: 1430
+Filename: luci-i18n-ddns-go-zh-cn_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: Translation for luci-app-ddns-go - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nezha-zh-cn
+Version: 25.061.05439~7e9466b
+Depends: libc, luci-app-nezha
+Section: luci
+Architecture: all
+MD5Sum: 63c9aca3c4178a017751807f98ea9b04
+Size: 1502
+Filename: luci-i18n-nezha-zh-cn_25.061.05439~7e9466b_all.ipk
+Source: /feed/luci-app-nezha
+Description: Translation for luci-app-nezha - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nikki-zh-cn
+Version: 25.063.02182~16e80b7
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: a39544b11b6c4b9386e6052059b6a855
+Size: 4541
+Filename: luci-i18n-nikki-zh-cn_25.063.02182~16e80b7_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-smartdns-de
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-smartdns
+Section: luci
+Architecture: all
+Maintainer: Nick Peng <pymumu@gmail.com>
+MD5Sum: 106d6b3287c57663b47228ecb8ba2972
+Size: 3876
+Filename: luci-i18n-smartdns-de_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-smartdns
+Description: Translation for luci-app-smartdns - Deutsch (German)
+License: GPL-3.0-or-later
+
+
+Package: luci-i18n-smartdns-es
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-smartdns
+Section: luci
+Architecture: all
+Maintainer: Nick Peng <pymumu@gmail.com>
+MD5Sum: bb8def55bed26baafd1befed52b1492c
+Size: 3787
+Filename: luci-i18n-smartdns-es_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-smartdns
+Description: Translation for luci-app-smartdns - Español (Spanish)
+License: GPL-3.0-or-later
+
+
+Package: luci-i18n-smartdns-zh-cn
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-smartdns
+Section: luci
+Architecture: all
+Maintainer: Nick Peng <pymumu@gmail.com>
+MD5Sum: 38b60662f685a97a90d4223bd8f9bbec
+Size: 6997
+Filename: luci-i18n-smartdns-zh-cn_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-smartdns
+Description: Translation for luci-app-smartdns - 简体中文 (Chinese Simplified)
+License: GPL-3.0-or-later
+
+
+Package: luci-i18n-smartdns-zh-tw
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-smartdns
+Section: luci
+Architecture: all
+Maintainer: Nick Peng <pymumu@gmail.com>
+MD5Sum: 472d44c8f16c47b7b703c918124d7afc
+Size: 3685
+Filename: luci-i18n-smartdns-zh-tw_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-smartdns
+Description: Translation for luci-app-smartdns - 繁體中文 (Chinese Traditional)
+License: GPL-3.0-or-later
+
+
+Package: nezha
+Version: 1.9.3-r1
+Depends: libc, ca-bundle, curl, yq
+Section: net
+Architecture: mipsel_24kc
+MD5Sum: b3854fb27a455b5640924dff364e7a60
+Size: 6546510
+Filename: nezha_1.9.3-r1_mipsel_24kc.ipk
+Source: /feed/nezha
+Description: A monitor in Go.
+
+
+Package: nikki
+Version: 2025.03.02~a7e56f1c-r1
+Depends: libc, ca-bundle, curl, yq, firewall4, ip-full, kmod-inet-diag, kmod-nft-tproxy, kmod-tun
+Provides: mihomo
+Section: net
+Architecture: mipsel_24kc
+Maintainer: Joseph Mory <morytyann@gmail.com>
+MD5Sum: 3c374eea988377294e9921967c80f853
+Size: 10393998
+Filename: nikki_2025.03.02~a7e56f1c-r1_mipsel_24kc.ipk
+Source: /feed/nikki
+Description: A rule based proxy in Go.
+License: GPL3.0+
+
+
+Package: smartdns
+Version: 1.2024.45-r1
+Depends: libc, libpthread, libopenssl3
+Section: net
+Architecture: mipsel_24kc
+Maintainer: Nick Peng <pymumu@gmail.com>
+MD5Sum: ba28d26fb66e8bde5bea56e8cd5f0d00
+Size: 142488
+Filename: smartdns_1.2024.45-r1_mipsel_24kc.ipk
+Source: /feed/smartdns
+Description: SmartDNS is a local DNS server which accepts DNS query requests from local network clients,
+License: GPL-3.0-or-later
+
+
