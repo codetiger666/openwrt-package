@@ -109,11 +109,11 @@ jobs:
           cp -ra smartdns1/package/openwrt/* smartdns
           cp -ra luci-app-smartdns1/* luci-app-smartdns
           commit_date=$(git -C smartdns1 log -n 1 --format=%cs)
-          commit_sha=$(git -C smartdns1 rev-parse HEAD)"
-          short_commit_sha=$(git -C smartdns1 rev-parse --short HEAD)"
+          commit_sha=$(git -C smartdns1 rev-parse HEAD)
+          short_commit_sha=$(git -C smartdns1 rev-parse --short HEAD)
           git -C smartdns1 config tar.xz.command "xz -c"
           git -C smartdns1 archive --output=smartdns1.tar.xz HEAD
-          checksum=$(sha256sum smartdns1/smartdns1.tar.xz | cut -d ' ' -f 1)"
+          checksum=$(sha256sum smartdns1/smartdns1.tar.xz | cut -d ' ' -f 1)
           sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${commit_date}/" smartdns/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${checksum}/" smartdns/Makefile
