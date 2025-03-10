@@ -64,6 +64,7 @@ return view.extend({
         o.onclick = function () {
             if (running) {
                 window.open(window.location.protocol + '//' + window.location.hostname + ':' + uci.get('ddns-go', 'config', 'port'));
+                return;
             }
             alert(_('Service Not Running!'));
         };
