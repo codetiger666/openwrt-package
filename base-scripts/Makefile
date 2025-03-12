@@ -15,6 +15,10 @@ define Package/base-scripts
   TITLE:=Some Scripts For Base.
 endef
 
+define Build/Compile
+  echo "building"
+endef
+
 define Package/base-scripts/description
  Some Scripts For Base.
 endef
