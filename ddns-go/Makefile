@@ -41,7 +41,7 @@ define Package/ddns-go
   CATEGORY:=Network
   TITLE:=Easy-to-use server monitoring and operation tool.
   URL:=https://github.com/jeessy2/ddns-go
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq +base-scripts
   USERID:=ddns-go:ddns-go
 endef
 

@@ -61,7 +61,7 @@ start_service() {
     procd_close_instance
     
     sed -i "/#nezha/d" "/etc/crontabs/root" > /dev/null 2>&1
-    echo "*/5 * * * * /etc/nezha/nezha.sh clear_log_cron #nezha" >> "/etc/crontabs/root"
+    echo "*/5 * * * * /etc/scripts/clear-log.sh -f $log_file -s 100 #nezha" >> "/etc/crontabs/root"
     /etc/init.d/cron restart
 
 }

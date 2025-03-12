@@ -38,7 +38,7 @@ start_service() {
     procd_close_instance
 
     sed -i "/#ddns-go/d" "/etc/crontabs/root" > /dev/null 2>&1
-    echo "*/5 * * * * /etc/ddns-go/ddns-go.sh clear_log_cron #ddns-go" >> "/etc/crontabs/root"
+    echo "*/5 * * * * /etc/scripts/clear-log.sh -f $log_file -s 100 #ddns-go" >> "/etc/crontabs/root"
     /etc/init.d/cron restart
 
 }

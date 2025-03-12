@@ -42,7 +42,7 @@ define Package/nezha
   CATEGORY:=Network
   TITLE:=Easy-to-use server monitoring and operation tool.
   URL:=https://github.com/nezhahq/agent
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq +base-scripts
   USERID:=nezha:nezha
 endef
 
