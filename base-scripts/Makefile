@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=base-scripts
 PKG_RELEASE:=1
-PKG_VERSION:=0.1
+PKG_VERSION:=0.2
 
 PKG_SOURCE_DATE:=$(shell date +%Y-%m-%d)
 PKG_BUILD_PARALLEL:=1
@@ -25,7 +25,7 @@ endef
 
 define Package/base-scripts/install
 	$(INSTALL_DIR) $(1)/etc/scripts
-	$(INSTALL_BIN) $(CURDIR)/files/base-script.sh $(1)/etc/scripts/base-script.sh
+	$(INSTALL_BIN) $(CURDIR)/files/clear-log.sh $(1)/etc/scripts/clear-log.sh
 endef
 
 $(eval $(call BuildPackage,base-scripts))
