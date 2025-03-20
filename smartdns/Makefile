@@ -6,13 +6,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=Release46.1
-PKG_RELEASE:=1
+PKG_VERSION:=Release46.2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_MIRROR_HASH:=bb5e775cef499def13c191ae83c658155e155e0ac94f10923bbed366426e9de2
-PKG_SOURCE_VERSION:=b525170bfd627607ee5ac81f97ae0f1f4f087d6b
+PKG_MIRROR_HASH:=skip
+PKG_BUILD_DEPENDS:=rust/host
+PKG_SOURCE_VERSION:=15a8d5c0be5002760c983fca66fc9beb1818297b
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -23,7 +23,8 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 
 MAKE_VARS += VER=$(PKG_VERSION) 
-MAKE_PATH:=src
+MAKE_VARS += WITH_UI=1
+MAKE_PATH:=
 
 define Package/smartdns
   SECTION:=net
@@ -49,6 +50,7 @@ define Package/smartdns/conffiles
 endef
 
 define Package/smartdns/install
+	ls -Rl
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/config $(1)/etc/init.d 
 	$(INSTALL_DIR) $(1)/etc/smartdns $(1)/etc/smartdns/domain-set $(1)/etc/smartdns/conf.d/
 	$(INSTALL_DIR) $(1)/etc/smartdns/ip-set $(1)/etc/smartdns/download
