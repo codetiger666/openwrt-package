@@ -11,8 +11,8 @@ PKG_VERSION:=Release46.2
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/codetiger666/smartdns.git
 PKG_MIRROR_HASH:=skip
-PKG_BUILD_DEPENDS:=rust/host
-PKG_SOURCE_VERSION:=a40cc5f27871bb284bb83432bc49ebb8e9322ce0
+PKG_BUILD_DEPENDS:=rust/host clang/host
+PKG_SOURCE_VERSION:=968c3f7e619d15e44cec840f07992e87af41cfdd
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
