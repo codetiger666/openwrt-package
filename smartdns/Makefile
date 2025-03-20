@@ -12,7 +12,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/codetiger666/smartdns.git
 PKG_MIRROR_HASH:=skip
 PKG_BUILD_DEPENDS:=rust/host
-PKG_SOURCE_VERSION:=c29b8b489abbae29908fb867c251701e071dc310
+PKG_SOURCE_VERSION:=a40cc5f27871bb284bb83432bc49ebb8e9322ce0
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
 
 MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_VARS += WITH_UI=1
-MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-gnu
+MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-musl
 MAKE_PATH:=
 
 define Package/smartdns
