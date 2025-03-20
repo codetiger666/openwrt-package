@@ -31,7 +31,7 @@ define Package/smartdns
   SECTION:=net
   CATEGORY:=Network
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl +libstdcpp
+  DEPENDS:=+libpthread +libopenssl +llvm-project
   URL:=https://www.github.com/pymumu/smartdns/
 endef
 
@@ -51,7 +51,7 @@ define Package/smartdns/conffiles
 endef
 
 define Package/smartdns/install
-	ls -Rl
+	ls -Rl 
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/config $(1)/etc/init.d 
 	$(INSTALL_DIR) $(1)/etc/smartdns $(1)/etc/smartdns/domain-set $(1)/etc/smartdns/conf.d/
 	$(INSTALL_DIR) $(1)/etc/smartdns/ip-set $(1)/etc/smartdns/download
