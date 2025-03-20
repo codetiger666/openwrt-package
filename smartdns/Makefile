@@ -24,6 +24,7 @@ include $(INCLUDE_DIR)/package.mk
 
 MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_VARS += WITH_UI=1
+MAKE_VARS += ARCH=$(ARCH)-unknown-linux-gnu
 MAKE_PATH:=
 
 define Package/smartdns
