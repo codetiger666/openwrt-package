@@ -25,13 +25,14 @@ include $(INCLUDE_DIR)/package.mk
 MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_VARS += WITH_UI=1
 MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-musl
+MAKE_VARS += RUSTFLAGS="-C linker=$(TARGET_CC)"
 MAKE_PATH:=
 
 define Package/smartdns
   SECTION:=net
   CATEGORY:=Network
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl +llvm-project
+  DEPENDS:=+libpthread +libopenssl
   URL:=https://www.github.com/pymumu/smartdns/
 endef
 
