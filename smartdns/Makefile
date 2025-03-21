@@ -54,12 +54,12 @@ define Package/smartdns/conffiles
 endef
 
 define Package/smartdns/compiler
-	$(call Build/Compile/Default)
 	# compile clang
 	ifneq ($(LIB_CLANG_EXISTS),yes)
 		git clone https://github.com/llvm/llvm-project.git -b $(CLANG_VERSION) $(PKG_BUILD_DIR)/llvm
 		(cd $(PKG_BUILD_DIR)/llvm && cmake -S llvm -B build -G "Unix Makefiles" -DLLVM_ENABLE_PROJECTS="clang" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_TARGET)/usr && cd build && make -j8 && make install)
 	endif
+	$(call Build/Compile/Default)
 endef
 
 define Package/smartdns/install
