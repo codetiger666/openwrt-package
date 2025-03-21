@@ -30,11 +30,12 @@ MAKE_PATH :=
 CLANG_VERSION=llvmorg-20.1.1
 LIB_CLANG_EXISTS := $(shell ldconfig -p | grep -q libclang.so && echo "yes" || echo "no")
 
+# DEPENDS:=+libpthread +libopenssl
+
 define Package/smartdns
   SECTION:=net
   CATEGORY:=Network
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl
   URL:=https://www.github.com/pymumu/smartdns/
 endef
 
