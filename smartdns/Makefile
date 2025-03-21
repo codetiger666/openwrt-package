@@ -22,7 +22,6 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
-include ./host-build.mk
 
 MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_VARS += WITH_UI=1
@@ -55,9 +54,14 @@ define Package/smartdns/conffiles
 endef
 
 define Build/Compile
-	ifeq ($(LIB_CLANG_EXISTS),no)
-		$(call host-build)
-    endif
+	if [ "$(LIB_CLANG_EXISTS)" = "no" ]; then
+		git clone https://github.com/llvm/llvm-project.git -b $(CLANG_VERSION) --dept=1 $(PKG_BUILD_DIR)/llvm
+		(cd $(PKG_BUILD_DIR)/llvm && cmake -S llvm -B build -G "Unix Makefiles" \
+		-DLLVM_ENABLE_PROJECTS="clang" \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_HOSTPKG)/usr \
+		&& cd build && make -j8 && make install)
+    fi
 	$(call Build/Compile/Default)
 endef
 
