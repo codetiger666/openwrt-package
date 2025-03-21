@@ -62,7 +62,7 @@ define Build/Compile
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_HOSTPKG)/usr \
 		&& cd build && make -j8 && make install)
-    fi
+	fi
 	$(call Build/Compile/Default)
 endef
 
