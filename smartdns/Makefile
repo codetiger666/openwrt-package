@@ -23,9 +23,12 @@ PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
+CLANG_PATH := $(STAGING_DIR_HOSTPKG)/usr/clang
 MAKE_VARS += VER=$(PKG_VERSION) 
 MAKE_VARS += WITH_UI=1
 MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-musl
+MAKE_VARS += LIBCLANG_PATH=$(CLANG_PATH)/lib
+
 MAKE_PATH :=
 CLANG_VERSION=llvmorg-20.1.1
 LIB_CLANG_EXISTS := $(shell ldconfig -p | grep -q libclang.so && echo "yes" || echo "no")
@@ -60,7 +63,7 @@ define Build/Compile
 		(cd $(PKG_BUILD_DIR)/llvm && cmake -S llvm -B build -G "Unix Makefiles" \
 		-DLLVM_ENABLE_PROJECTS="clang" \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_HOSTPKG)/usr \
+		-DCMAKE_INSTALL_PREFIX=$(CLANG_PATH) \
 		&& cd build && make -j8 && make install) \
 	fi
 	$(call Build/Compile/Default)
