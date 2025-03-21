@@ -53,7 +53,7 @@ define Package/smartdns/conffiles
 /etc/smartdns/domain-forwarding.list
 endef
 
-define Package/smartdns/compiler
+define Build/Compile
 	# compile clang
 	ifneq ($(LIB_CLANG_EXISTS),no)
 		git clone https://github.com/llvm/llvm-project.git -b $(CLANG_VERSION) $(PKG_BUILD_DIR)/llvm
