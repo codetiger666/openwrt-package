@@ -61,7 +61,7 @@ define Build/Compile
 		-DLLVM_ENABLE_PROJECTS="clang" \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_HOSTPKG)/usr \
-		&& cd build && make -j8 && make install)
+		&& cd build && make -j8 && make install) \
 	fi; \
 	$(call Build/Compile/Default)
 endef
