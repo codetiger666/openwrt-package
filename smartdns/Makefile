@@ -28,7 +28,7 @@ MAKE_VARS += WITH_UI=1
 MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-musl
 MAKE_PATH :=
 CLANG_VERSION=llvmorg-20.1.1
-LIB_CLANG_EXISTS := $(shell ldconfig -p | grep -q libclang.so && echo "yes")
+LIB_CLANG_EXISTS := $(shell ldconfig -p | grep -q libclang.so && echo "yes" || echo "no")
 
 define Package/smartdns
   SECTION:=net
@@ -55,7 +55,7 @@ endef
 
 define Package/smartdns/compiler
 	# compile clang
-	ifneq ($(LIB_CLANG_EXISTS),yes)
+	ifneq ($(LIB_CLANG_EXISTS),no)
 		git clone https://github.com/llvm/llvm-project.git -b $(CLANG_VERSION) $(PKG_BUILD_DIR)/llvm
 		(cd $(PKG_BUILD_DIR)/llvm && cmake -S llvm -B build -G "Unix Makefiles" -DLLVM_ENABLE_PROJECTS="clang" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$(STAGING_DIR_TARGET)/usr && cd build && make -j8 && make install)
 	endif
