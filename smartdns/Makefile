@@ -20,10 +20,8 @@ PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
-ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
 PKG_BUILD_DEPENDS:=rust/host
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
-endif
 
 include $(INCLUDE_DIR)/package.mk
 
