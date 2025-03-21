@@ -1,19 +1,18 @@
 #
-# Copyright (c) 2018-2024 Nick Peng (pymumu@gmail.com)
+# Copyright (c) 2018-2023 Nick Peng (pymumu@gmail.com)
 # This is free software, licensed under the GNU General Public License v3.
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=Release46.1
+PKG_VERSION:=1.2025.46.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/codetiger666/smartdns.git
-PKG_MIRROR_HASH:=skip
-PKG_BUILD_DEPENDS:=rust/host
-PKG_SOURCE_VERSION:=24e29f4f31e8932615dfb74cb0fde5a448fd4eac
+PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
+PKG_SOURCE_VERSION:=15a8d5c0be5002760c983fca66fc9beb1818297b
+PKG_MIRROR_HASH:=780753629a050b66bccd337264d15c1d7b4512f07aca3f1bd96fcdeb702e0e34
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -21,25 +20,27 @@ PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
+ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
+PKG_BUILD_DEPENDS:=rust/host
+include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
+endif
+
 include $(INCLUDE_DIR)/package.mk
 
-CLANG_PATH := $(STAGING_DIR_HOSTPKG)/usr/clang
 MAKE_VARS += VER=$(PKG_VERSION) 
-MAKE_VARS += WITH_UI=1
-MAKE_VARS += BUILD_ARCH=$(ARCH)-unknown-linux-musl
-MAKE_VARS += LIBCLANG_PATH=$(CLANG_PATH)/lib
+MAKE_PATH:=src
 
-MAKE_PATH :=
-CLANG_VERSION=llvmorg-20.1.1
-LIB_CLANG_EXISTS := $(shell ldconfig -p | grep -q libclang.so && echo "yes" || echo "no")
-
-
-define Package/smartdns
+define Package/smartdns/default
   SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=IP Addresses and Names
+  URL:=https://www.github.com/pymumu/smartdns/
+endef
+
+define Package/smartdns
+  $(Package/smartdns/default)
   TITLE:=smartdns server
   DEPENDS:=+libpthread +libopenssl
-  URL:=https://www.github.com/pymumu/smartdns/
 endef
 
 define Package/smartdns/description
@@ -57,31 +58,52 @@ define Package/smartdns/conffiles
 /etc/smartdns/domain-forwarding.list
 endef
 
-define Build/Compile
-	if [ "$(LIB_CLANG_EXISTS)" = "no" ]; then \
-		git clone https://github.com/llvm/llvm-project.git -b $(CLANG_VERSION) --dept=1 $(PKG_BUILD_DIR)/llvm &&\
-		(cd $(PKG_BUILD_DIR)/llvm && cmake -S llvm -B build -G "Unix Makefiles" \
-		-DLLVM_ENABLE_PROJECTS="clang" \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=$(CLANG_PATH) \
-		&& cd build && make -j8 && make install) \
-	fi
-	$(call Build/Compile/Default)
-endef
-
 define Package/smartdns/install
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/config $(1)/etc/init.d 
 	$(INSTALL_DIR) $(1)/etc/smartdns $(1)/etc/smartdns/domain-set $(1)/etc/smartdns/conf.d/
-	$(INSTALL_DIR) $(1)/etc/smartdns/ip-set $(1)/etc/smartdns/download
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/smartdns $(1)/usr/sbin/smartdns
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/plugin/smartdns-ui/target/libsmartdns_ui.so $(1)/etc/smartdns/libsmartdns_ui.so
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/package/openwrt/files/etc/init.d/smartdns $(1)/etc/init.d/smartdns
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-block.list $(1)/etc/smartdns/domain-block.list
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/domain-forwarding.list $(1)/etc/smartdns/domain-forwarding.list
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/files/etc/config/smartdns $(1)/etc/config/smartdns
 endef
 
+define Package/smartdns-ui
+  $(Package/smartdns/default)
+  TITLE:=smartdns dashboard
+  DEPENDS:=+smartdns
+endef
+
+define Package/smartdns-ui/description
+A dashboard ui for smartdns server.
+endef
+
+define Package/smartdns-ui/conffiles
+/etc/config/smartdns
+/etc/smartdns/conf.d/smartdns-ui.conf
+endef
+
+define Package/smartdns-ui/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_DIR) $(1)/etc/smartdns/conf.d/
+	$(INSTALL_BIN) $(shell find $(PKG_BUILD_DIR)/plugin/smartdns-ui/target -name libsmartdns_ui.so -not -path "*/deps/*") $(1)/usr/lib/libsmartdns_ui.so
+endef
+
+define Build/Compile/smartdns-ui
+	+$(CARGO_PKG_VARS) \
+	cargo build \
+		$(if $(strip $(RUST_PKG_FEATURES)),--features "$(strip $(RUST_PKG_FEATURES))") \
+		--profile $(CARGO_PKG_PROFILE) \
+		--manifest-path $(PKG_BUILD_DIR)/plugin/smartdns-ui/Cargo.toml
+endef
+
+define Build/Compile
+	$(call Build/Compile/Default,smartdns)
+ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
+	$(call Build/Compile/smartdns-ui)
+endif
+endef
+
 $(eval $(call BuildPackage,smartdns))
+$(eval $(call BuildPackage,smartdns-ui))
