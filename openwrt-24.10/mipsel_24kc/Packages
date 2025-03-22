@@ -1,0 +1,164 @@
+Lost field SourceName, base-scripts
+Lost field SourceDateEpoch, 1741756107
+Lost field Installed-Size, 10240
+Lost field SourceName, ddns-go
+Lost field Require-User, ddns-go:ddns-go
+Lost field SourceDateEpoch, 1741760826
+Lost field URL, https://github.com/jeessy2/ddns-go
+Lost field Installed-Size, 11120640
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1741597032
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1740879656
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1742261243
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 61440
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1741597032
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1740879656
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1742261243
+Lost field Installed-Size, 20480
+Lost field SourceName, nezha
+Lost field Require-User, nezha:nezha
+Lost field SourceDateEpoch, 1742520994
+Lost field URL, https://github.com/nezhahq/agent
+Lost field Installed-Size, 20480000
+Lost field SourceName, nikki
+Lost field SourceDateEpoch, 1742261243
+Lost field URL, https://wiki.metacubex.one
+Lost field Installed-Size, 33454080
+Package: base-scripts
+Version: 0.2-r1
+Depends: libc
+Section: utils
+Architecture: mipsel_24kc
+MD5Sum: 02e8f64fa80b108b49c2ed8c2f449daf
+Size: 1239
+Filename: base-scripts_0.2-r1_mipsel_24kc.ipk
+Source: /feed/base-scripts
+Description: Some Scripts For Base.
+
+
+Package: ddns-go
+Version: 6.9.1-r1
+Depends: libc, ca-bundle, curl, yq, base-scripts
+Section: net
+Architecture: mipsel_24kc
+MD5Sum: 8bcd8b2043f164defb2c50b5aab8e513
+Size: 3733224
+Filename: ddns-go_6.9.1-r1_mipsel_24kc.ipk
+Source: /feed/ddns-go
+Description: A Dynamic DNS Resolver in Go.
+
+
+Package: luci-app-ddns-go
+Version: 1.0.3-r1
+Depends: libc, luci-base, ddns-go
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: ceecf7c0cf370d7a42a3dffe616af23d
+Size: 3216
+Filename: luci-app-ddns-go_1.0.3-r1_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: LuCI Support for DDNS GO
+
+
+Package: luci-app-nezha
+Version: 1.0.1-r1
+Depends: libc, luci-base, nezha, uuidgen
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 9333d6839512bef7a8a5b2470ee7b58f
+Size: 3199
+Filename: luci-app-nezha_1.0.1-r1_all.ipk
+Source: /feed/luci-app-nezha
+Description: LuCI Support for Nezha Agent
+
+
+Package: luci-app-nikki
+Version: 1.21.1-r1
+Depends: libc, luci-base, nikki
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 032f81f6e73ce06be9b321b6e0f89569
+Size: 9694
+Filename: luci-app-nikki_1.21.1-r1_all.ipk
+Source: /feed/luci-app-nikki
+Description: LuCI Support for nikki
+
+
+Package: luci-i18n-ddns-go-zh-cn
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-ddns-go
+Section: luci
+Architecture: all
+MD5Sum: b27d1e3e3c321f831a96a350489e2410
+Size: 1431
+Filename: luci-i18n-ddns-go-zh-cn_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: Translation for luci-app-ddns-go - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nezha-zh-cn
+Version: 25.061.05439~7e9466b
+Depends: libc, luci-app-nezha
+Section: luci
+Architecture: all
+MD5Sum: 63c9aca3c4178a017751807f98ea9b04
+Size: 1502
+Filename: luci-i18n-nezha-zh-cn_25.061.05439~7e9466b_all.ipk
+Source: /feed/luci-app-nezha
+Description: Translation for luci-app-nezha - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nikki-zh-cn
+Version: 25.076.05873~1c32094
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: 4933804df693450d2e4cf0b963f6caad
+Size: 4639
+Filename: luci-i18n-nikki-zh-cn_25.076.05873~1c32094_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 简体中文 (Chinese Simplified)
+
+
+Package: nezha
+Version: 1.9.6-r1
+Depends: libc, ca-bundle, curl, yq, base-scripts
+Section: net
+Architecture: mipsel_24kc
+MD5Sum: 1983c5d89f43053b3b564977a1874a86
+Size: 6550471
+Filename: nezha_1.9.6-r1_mipsel_24kc.ipk
+Source: /feed/nezha
+Description: A monitor in Go.
+
+
+Package: nikki
+Version: 2025.03.17~e3d4ec24-r1
+Depends: libc, ca-bundle, curl, yq, firewall4, ip-full, kmod-inet-diag, kmod-nft-socket, kmod-nft-tproxy, kmod-tun
+Provides: mihomo
+Section: net
+Architecture: mipsel_24kc
+Maintainer: Joseph Mory <morytyann@gmail.com>
+MD5Sum: afe70738eaed25d32402fadfc3ec18e0
+Size: 10429197
+Filename: nikki_2025.03.17~e3d4ec24-r1_mipsel_24kc.ipk
+Source: /feed/nikki
+Description: A rule based proxy in Go.
+License: GPL3.0+
+
+
