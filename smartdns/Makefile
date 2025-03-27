@@ -12,15 +12,15 @@ PKG_RELEASE:=1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/codetiger666/smartdns.git
 PKG_MIRROR_HASH:=skip
-PKG_SOURCE_VERSION:=94727093c7fcd4e9bdfa2ab2f2838e4d77e1d620
+PKG_SOURCE_VERSION:=ff568f8fc14b6af069394c487966fdb5c74505c1
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
-
 PKG_BUILD_DEPENDS:=rust/host node/host
+
 include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 include $(INCLUDE_DIR)/package.mk
 
