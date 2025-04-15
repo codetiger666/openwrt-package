@@ -99,30 +99,6 @@ jobs:
           git add .
           git commit -m "chore: nikki bump version to $(curl -s https://api.github.com/repos/nikkinikki-org/OpenWrt-nikki/releases/latest | jq -r '.tag_name')"  || true
       
-      - name: update smartdns
-        continue-on-error: true
-        run: |
-          pkg_version=$(curl -s https://api.github.com/repos/pymumu/smartdns/releases/latest | jq -r '.tag_name')
-          git clone https://github.com/pymumu/smartdns.git -b ${pkg_version} --dept=1 smartdns1
-          git clone https://github.com/pymumu/luci-app-smartdns.git --dept=1 luci-app-smartdns1
-          rm -rf luci-app-smartdns1/.git*
-          cp -ra smartdns1/package/openwrt/* smartdns
-          cp -ra luci-app-smartdns1/* luci-app-smartdns
-          commit_date=$(git -C smartdns1 log -n 1 --format=%cs)
-          commit_sha=$(git -C smartdns1 rev-parse HEAD)
-          short_commit_sha=$(git -C smartdns1 rev-parse --short HEAD)
-          git -C smartdns1 config tar.xz.command "xz -c"
-          git -C smartdns1 archive --output=smartdns1.tar.xz HEAD
-          checksum=$(sha256sum smartdns1/smartdns1.tar.xz | cut -d ' ' -f 1)
-          sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${commit_date}/" smartdns/Makefile
-          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
-          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${checksum}/" smartdns/Makefile
-          sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${pkg_version}/" smartdns/Makefile
-          sed -i 's|include \.\./\.\./luci\.mk|include $(TOPDIR)/feeds/luci/luci.mk|g' luci-app-smartdns/Makefile
-          rm -rf smartdns1 luci-app-smartdns1
-          git add .
-          git commit -m "chore: smartdns bump version to $(grep "PKG_VERSION:=" smartdns/Makefile | cut -d '=' -f 2)"  || true
-      
       - name: push and handle tag
         run: |
           git pull || true && git push || true
