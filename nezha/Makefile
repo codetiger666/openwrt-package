@@ -59,8 +59,7 @@ endef
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	(cd $(PKG_BUILD_DIR) && \
-		go mod tidy -v && \
-		go generate ./...)
+		go mod tidy -v)
 endef
 
 define Build/Compile
