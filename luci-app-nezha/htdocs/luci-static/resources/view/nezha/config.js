@@ -45,9 +45,11 @@ return view.extend({
         o.rmempty = false;
 
         o = s.option(form.Value, 'version', _('Version'));
-        o.default = version;
         o.rmempty = true;
         o.readonly = true;
+        o.load = function () {
+            return version;
+        };
 
         o = s.option(form.DummyValue, 'status', _('Status'));
         o.cfgvalue = function () {

@@ -41,9 +41,11 @@ return view.extend({
         st.anonymous = true;
 
         o = st.option(form.Value, 'version', _('Version'));
-        o.default = version;
         o.rmempty = true;
         o.readonly = true;
+        o.load = function () {
+            return version;
+        };
 
         o = st.option(form.DummyValue, 'status', _('Status'));
         o.cfgvalue = function () {
