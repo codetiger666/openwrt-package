@@ -16,6 +16,7 @@ jobs:
           - nikki
           - smartdns
           - ddns-go
+          - openlist
         arch:
           - aarch64_cortex-a53
           - aarch64_generic
