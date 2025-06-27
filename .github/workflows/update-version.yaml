@@ -44,7 +44,7 @@ jobs:
           new_version=$(get_latest_version "$location" "$repo")
           pkgVersion=$(apply_handle "$handle" "$new_version")
           echo "new_pkg_repo=$repo" >> $GITHUB_OUTPUT
-          echo "new_pkg_tag=$new_version" >> $GITHUB_OUTPUT
+            echo "new_pkg_tag=$new_version" >> $GITHUB_OUTPUT
           echo "new_pkg_version=$pkgVersion" >> $GITHUB_OUTPUT
  
       - name: Checkout ${{ matrix.package }}
@@ -109,6 +109,28 @@ jobs:
           git add .
           git commit -m "chore: openlist bump version to $(curl -s https://api.github.com/repos/OpenListTeam/luci-app-openlist/releases/latest | jq -r '.tag_name')"  || true
       
+      - name: update smartdns
+        continue-on-error: true
+        run: |
+          git clone https://github.com/pymumu/smartdns.git newPackage
+          commit_date=$(git -C newPackage log -n 1 --format=%cs)
+          commit_sha=$(git -C newPackage rev-parse HEAD)
+          short_commit_sha=$(git -C newPackage rev-parse --short HEAD)
+          git -C newPackage config tar.xz.command "xz -c"
+          git -C newPackage archive --output=newPackage.tar.xz HEAD
+          checksum=$(sha256sum newPackage/newPackage.tar.xz | cut -d ' ' -f 1)
+          sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" smartdns/Makefile
+          sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${commit_date}/" smartdns/Makefile
+          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
+          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${checksum}/" smartdns/Makefile
+          sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${commit_date}/" smartdns/Makefile
+          git clone https://github.com/pymumu/smartdns-webui.git newPackageUi
+          commit_sha=$(git -C newPackageUi rev-parse HEAD)
+          sed -i "s/SMARTDNS_WEBUI_SOURCE_VERSION:=.*/SMARTDNS_WEBUI_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
+          rm -rf newPackage newPackageUi
+          git add .
+          git commit -m "chore: smartdns core bump version to ${commit_date}"
+
       - name: push and handle tag
         run: |
           git pull || true && git push || true
