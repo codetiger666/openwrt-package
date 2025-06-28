@@ -127,7 +127,12 @@ jobs:
           git clone https://github.com/pymumu/smartdns-webui.git newPackageUi
           commit_sha=$(git -C newPackageUi rev-parse HEAD)
           sed -i "s/SMARTDNS_WEBUI_SOURCE_VERSION:=.*/SMARTDNS_WEBUI_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
-          rm -rf newPackage newPackageUi
+          git clone https://github.com/pymumu/luci-app-smartdns.git newPackageLuci
+          cp -ra newPackageLuci/* luci-app-smartdns/
+          cp -ra newPackageLuci/* luci-app-smartdns/
+          sed -i "s/LUCI_DEPENDS:=+smartdns/LUCI_DEPENDS:=+smartdns-ui/" luci-app-smartdns/Makefile
+          sed -i "s#include ../../luci.mk#include \$(TOPDIR)/feeds/luci/luci.mk#" luci-app-smartdns/Makefile
+          rm -rf newPackage newPackageUi newPackageLuci
           git add .
           git commit -m "chore: smartdns core bump version to ${commit_date}"
 
