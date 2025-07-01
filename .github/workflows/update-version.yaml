@@ -102,12 +102,12 @@ jobs:
       - name: update openlist
         continue-on-error: true
         run: |
-          git clone https://github.com/OpenListTeam/luci-app-openlist.git -b $(curl -s https://api.github.com/repos/OpenListTeam/luci-app-openlist/releases/latest | jq -r '.tag_name') --single-branch --dept=1 openlist-org
+          git clone https://github.com/sbwml/luci-app-openlist.git -b $(curl -s https://api.github.com/repos/sbwml/luci-app-openlist/releases/latest | jq -r '.tag_name') --single-branch --dept=1 openlist-org
           cp -ra openlist-org/openlist ./
           cp -ra openlist-org/luci-app-openlist ./
           rm -rf openlist-org
           git add .
-          git commit -m "chore: openlist bump version to $(curl -s https://api.github.com/repos/OpenListTeam/luci-app-openlist/releases/latest | jq -r '.tag_name')"  || true
+          git commit -m "chore: openlist bump version to $(curl -s https://api.github.com/repos/sbwml/luci-app-openlist/releases/latest | jq -r '.tag_name')"  || true
       
       - name: update smartdns
         continue-on-error: true
