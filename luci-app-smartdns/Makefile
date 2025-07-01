@@ -11,7 +11,7 @@ PKG_RELEASE:=2
 
 LUCI_TITLE:=LuCI for smartdns
 LUCI_DESCRIPTION:=Provides Luci for smartdns
-LUCI_DEPENDS:=+luci-base +smartdns
+LUCI_DEPENDS:=+luci-base +smartdns-ui
 LUCI_PKGARCH:=all
 
 define Package/$(PKG_NAME)/config
