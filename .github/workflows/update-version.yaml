@@ -130,7 +130,7 @@ jobs:
           git clone https://github.com/pymumu/luci-app-smartdns.git newPackageLuci
           cp -ra newPackageLuci/* luci-app-smartdns/
           cp -ra newPackageLuci/* luci-app-smartdns/
-          sed -i "s/LUCI_DEPENDS:=+smartdns/LUCI_DEPENDS:=+smartdns-ui/" luci-app-smartdns/Makefile
+          sed -i "s/LUCI_DEPENDS:=+luci-base +smartdns/LUCI_DEPENDS:=+luci-base +smartdns-ui/" luci-app-smartdns/Makefile
           sed -i "s#include ../../luci.mk#include \$(TOPDIR)/feeds/luci/luci.mk#" luci-app-smartdns/Makefile
           rm -rf newPackage newPackageUi newPackageLuci
           git add .
