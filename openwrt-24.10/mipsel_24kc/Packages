@@ -1,0 +1,180 @@
+Lost field SourceName, base-scripts
+Lost field SourceDateEpoch, 1741756107
+Lost field Installed-Size, 10240
+Lost field SourceName, ddns-go
+Lost field Require-User, ddns-go:ddns-go
+Lost field SourceDateEpoch, 1754617402
+Lost field URL, https://github.com/jeessy2/ddns-go
+Lost field Installed-Size, 12062720
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1749013528
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1753667231
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 61440
+Lost field SourceName, luci-app-openlist
+Lost field SourceDateEpoch, 1751344485
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 30720
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1749013528
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1753667231
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1753667231
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-openlist
+Lost field SourceDateEpoch, 1751344485
+Lost field Installed-Size, 10240
+Lost field SourceName, nikki
+Lost field SourceDateEpoch, 1753667231
+Lost field URL, https://wiki.metacubex.one
+Lost field Installed-Size, 33945600
+Lost field SourceName, openlist
+Lost field SourceDateEpoch, 1751679073
+Lost field URL, https://openlist.team/
+Lost field Installed-Size, 87377920
+Package: base-scripts
+Version: 0.2-r1
+Depends: libc
+Section: utils
+Architecture: mipsel_24kc
+MD5Sum: 02e8f64fa80b108b49c2ed8c2f449daf
+Size: 1239
+Filename: base-scripts_0.2-r1_mipsel_24kc.ipk
+Source: /feed/base-scripts
+Description: Some Scripts For Base.
+
+
+Package: ddns-go
+Version: 6.12.2-r1
+Depends: libc, ca-bundle, curl, yq, base-scripts
+Section: net
+Architecture: mipsel_24kc
+MD5Sum: 6d9988fdb80170657931f2b69ea464ed
+Size: 4038451
+Filename: ddns-go_6.12.2-r1_mipsel_24kc.ipk
+Source: /feed/ddns-go
+Description: A Dynamic DNS Resolver in Go.
+
+
+Package: luci-app-ddns-go
+Version: 1.0.3-r1
+Depends: libc, luci-base, ddns-go
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 0a76e5b148f810d1e3b5bf757b9bfa13
+Size: 3221
+Filename: luci-app-ddns-go_1.0.3-r1_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: LuCI Support for DDNS GO
+
+
+Package: luci-app-nikki
+Version: 1.23.3-r1
+Depends: libc, luci-base, nikki
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 996255c2c2a977da247ab17d2cf17488
+Size: 9922
+Filename: luci-app-nikki_1.23.3-r1_all.ipk
+Source: /feed/luci-app-nikki
+Description: LuCI Support for nikki
+
+
+Package: luci-app-openlist
+Version: 1.0.1-r1
+Depends: libc, openlist
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: b70247c21327c6adc99432a956a5718d
+Size: 5380
+Filename: luci-app-openlist_1.0.1-r1_all.ipk
+Source: /feed/luci-app-openlist
+Description: LuCI support for openlist
+
+
+Package: luci-i18n-ddns-go-zh-cn
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-ddns-go
+Section: luci
+Architecture: all
+MD5Sum: a3350c5330032aea2d90d7e040caba49
+Size: 1435
+Filename: luci-i18n-ddns-go-zh-cn_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: Translation for luci-app-ddns-go - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nikki-zh-cn
+Version: 25.209.06431~5d65caa
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: 914aeb208e5fbed156c1353051c276fc
+Size: 4690
+Filename: luci-i18n-nikki-zh-cn_25.209.06431~5d65caa_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 简体中文 (Chinese Simplified)
+
+
+Package: luci-i18n-nikki-zh-tw
+Version: 25.209.06431~5d65caa
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: 16ea6a978f6ff774967a02d1edfa67bb
+Size: 4757
+Filename: luci-i18n-nikki-zh-tw_25.209.06431~5d65caa_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 繁體中文 (Chinese Traditional)
+
+
+Package: luci-i18n-openlist-zh-cn
+Version: 25.176.32786~2ca5d05
+Depends: libc, luci-app-openlist
+Section: luci
+Architecture: all
+MD5Sum: cb271d14700058e8982cf14b7ba48e67
+Size: 3001
+Filename: luci-i18n-openlist-zh-cn_25.176.32786~2ca5d05_all.ipk
+Source: /feed/luci-app-openlist
+Description: Translation for luci-app-openlist - 简体中文 (Chinese Simplified)
+
+
+Package: nikki
+Version: 2025.07.27-r1
+Depends: libc, ca-bundle, curl, yq, firewall4, ip-full, kmod-inet-diag, kmod-nft-socket, kmod-nft-tproxy, kmod-tun
+Provides: mihomo
+Section: net
+Architecture: mipsel_24kc
+Maintainer: Joseph Mory <morytyann@gmail.com>
+MD5Sum: 6e4d05d436ac1dc1178d92cbf20844ea
+Size: 10480356
+Filename: nikki_2025.07.27-r1_mipsel_24kc.ipk
+Source: /feed/nikki
+Description: A rule based proxy in Go.
+License: GPL3.0+
+
+
+Package: openlist
+Version: 4.0.8-r1
+Depends: libc, ca-bundle
+Section: net
+Architecture: mipsel_24kc
+Maintainer: sbwml <admin@cooluc.com>
+MD5Sum: a3dae689e0e70b9330e83161806b241d
+Size: 24966645
+Filename: openlist_4.0.8-r1_mipsel_24kc.ipk
+Source: /feed/openlist
+Description: A file list program that supports multiple storage, powered by Gin and Solidjs.
+License: GPL-3.0
+
+
