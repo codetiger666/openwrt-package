@@ -60,6 +60,9 @@ define Package/nikki/install
 	$(INSTALL_DIR) $(1)/etc/nikki/run/providers/proxy
 
 	$(INSTALL_DATA) $(CURDIR)/files/mixin.yaml $(1)/etc/nikki/mixin.yaml
+$(INSTALL_DATA) $(CURDIR)/ssl/server.key $(1)/etc/nikki/run/ssl/server.key
+$(INSTALL_DATA) $(CURDIR)/ssl/server.crt $(1)/etc/nikki/run/ssl/server.crt
+$(INSTALL_DIR) $(1)/etc/nikki/run/ssl
 
 	$(INSTALL_BIN) $(CURDIR)/files/ucode/include.uc $(1)/etc/nikki/ucode/include.uc
 	$(INSTALL_BIN) $(CURDIR)/files/ucode/mixin.uc $(1)/etc/nikki/ucode/mixin.uc
