@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nikki
 PKG_VERSION:=2025.08.27
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
@@ -60,6 +60,9 @@ define Package/nikki/install
 	$(INSTALL_DIR) $(1)/etc/nikki/run/providers/proxy
 
 	$(INSTALL_DATA) $(CURDIR)/files/mixin.yaml $(1)/etc/nikki/mixin.yaml
+	$(INSTALL_DIR) $(1)/etc/nikki/run/ssl
+	$(INSTALL_DATA) $(CURDIR)/ssl/server.crt $(1)/etc/nikki/run/ssl/server.crt
+	$(INSTALL_DATA) $(CURDIR)/ssl/server.key $(1)/etc/nikki/run/ssl/server.key
 
 	$(INSTALL_BIN) $(CURDIR)/files/ucode/include.uc $(1)/etc/nikki/ucode/include.uc
 	$(INSTALL_BIN) $(CURDIR)/files/ucode/mixin.uc $(1)/etc/nikki/ucode/mixin.uc
