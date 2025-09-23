@@ -120,18 +120,21 @@ jobs:
       - name: update smartdns
         continue-on-error: true
         run: |
-          git clone https://github.com/pymumu/smartdns.git newPackage
+          tagName=$(curl -s https://api.github.com/repos/pymumu/smartdns/releases/latest | jq -r '.tag_name')
+          git clone https://github.com/pymumu/smartdns.git -b ${tagName} newPackage
           commit_date=$(git -C newPackage log -n 1 --format=%cs)
           commit_sha=$(git -C newPackage rev-parse HEAD)
           short_commit_sha=$(git -C newPackage rev-parse --short HEAD)
           git -C newPackage config tar.xz.command "xz -c"
           git -C newPackage archive --output=newPackage.tar.xz HEAD
           checksum=$(sha256sum newPackage/newPackage.tar.xz | cut -d ' ' -f 1)
+          cp -f newPackage/package/openwrt/Makefile smartdns/Makefile
+          sed -i "s#include ../../lang/rust/rust-package.mk#include \$(TOPDIR)/feeds/packages/lang/rust/rust-package.mk#" smartdns/Makefile
           sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" smartdns/Makefile
           sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${commit_date}/" smartdns/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${checksum}/" smartdns/Makefile
-          sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${commit_date}/" smartdns/Makefile
+          sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=9999.${tagName/Release/}/" smartdns/Makefile
           git clone https://github.com/pymumu/smartdns-webui.git newPackageUi
           commit_sha=$(git -C newPackageUi rev-parse HEAD)
           sed -i "s/SMARTDNS_WEBUI_SOURCE_VERSION:=.*/SMARTDNS_WEBUI_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
@@ -142,7 +145,7 @@ jobs:
           sed -i "s#include ../../luci.mk#include \$(TOPDIR)/feeds/luci/luci.mk#" luci-app-smartdns/Makefile
           rm -rf newPackage newPackageUi newPackageLuci
           git add .
-          git commit -m "chore: smartdns core bump version to ${commit_date}"
+          git commit -m "chore: smartdns core bump version to 9999.${tagName/Release/}"
 
       - name: push and handle tag
         run: |
@@ -163,7 +166,7 @@ jobs:
                 --header 'Content-Type: application/json' \
                 --data "{
                 \"chat_id\": \"${{ secrets.TG_BOT_USER_ID }}\",
-                \"text\": \"\\\\[openwrt\\\\-pkages\\\\] \\\\[🟢 触发编译\\\\]\",
+                \"text\": \"\\\\[openwrt\\\\-packages\\\\] \\\\[🟢 触发编译\\\\]\",
                 \"parse_mode\": \"MarkdownV2\"
                 }"
           
