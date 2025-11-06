@@ -58,26 +58,6 @@ jobs:
           echo "commit_date=$(git -C newPackage log -n 1 --format=%cs)" >> $GITHUB_OUTPUT
           echo "commit_sha=$(git -C newPackage rev-parse HEAD)" >> $GITHUB_OUTPUT
           echo "short_commit_sha=$(git -C newPackage rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          cd newPackage
-          TAR_TIMESTAMP=$(git log -1 --no-show-signature --format='@%ct')
-          git config core.abbrev 8
-          git archive --format=tar HEAD --output=../newPackage.tar.git
-          cd ..
-          tar --numeric-owner --owner=0 --group=0 --ignore-failed-read \
-            -C newPackage -f newPackage.tar.git -r .git .gitmodules 2>/dev/null
-          rm -rf newPackage
-          mkdir newPackage
-          tar -C newPackage -xf newPackage.tar.git
-          cd newPackage
-          git submodule update --init --recursive --
-          rm -rf .git .gitmodules
-          cd ..
-          tar --numeric-owner --owner=0 --group=0 --mode=a-s --sort=name \
-              ${TAR_TIMESTAMP:+--mtime="$TAR_TIMESTAMP"} \
-              -c newPackage | gzip -nc > newPackage.tar.gz
-          echo "checksum=$(sha256sum newPackage.tar.gz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
-          rm -rf newPackage
-          rm -rf newPackage.tar.git newPackage.tar.gz
         
       - name: update ${{ matrix.package }} Makefile
         if: ${{ steps.get-version.outputs.pkg_version != steps.get-repo.outputs.new_pkg_version }}
@@ -85,7 +65,7 @@ jobs:
           sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" ${{ matrix.package }}/Makefile
           sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${{ steps.get-new-info.outputs.commit_date }}/" ${{ matrix.package }}/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ steps.get-new-info.outputs.commit_sha }}/" ${{ matrix.package }}/Makefile
-          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.get-new-info.outputs.checksum }}/" ${{ matrix.package }}/Makefile
+          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=x/" ${{ matrix.package }}/Makefile
           sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${{ steps.get-repo.outputs.new_pkg_version }}/" ${{ matrix.package }}/Makefile
           git add .
           git commit -m "chore: ${{ matrix.package }} core bump version to ${{ steps.get-repo.outputs.new_pkg_version }}"
@@ -147,24 +127,6 @@ jobs:
           commit_date=$(git -C newPackage log -n 1 --format=%cs)
           commit_sha=$(git -C newPackage rev-parse HEAD)
           short_commit_sha=$(git -C newPackage rev-parse --short HEAD)
-          cd newPackage
-          TAR_TIMESTAMP=$(git log -1 --no-show-signature --format='@%ct')
-           git config core.abbrev 8
-          git archive --format=tar HEAD --output=../newPackage.tar.git
-          cd ..
-          tar --numeric-owner --owner=0 --group=0 --ignore-failed-read \
-            -C newPackage -f newPackage.tar.git -r .git .gitmodules 2>/dev/null
-          rm -rf newPackage
-          mkdir newPackage
-          tar -C newPackage -xf newPackage.tar.git
-          cd newPackage
-          git submodule update --init --recursive --
-          rm -rf .git .gitmodules
-          cd ..
-          tar --numeric-owner --owner=0 --group=0 --mode=a-s --sort=name \
-              ${TAR_TIMESTAMP:+--mtime="$TAR_TIMESTAMP"} \
-              -c newPackage | gzip -nc > newPackage.tar.gz
-          checksum=$(sha256sum newPackage.tar.gz | cut -d ' ' -f 1)
           cp -f newPackage/package/openwrt/Makefile smartdns/Makefile
           rm -rf newPackage
           rm -rf newPackage.tar.git newPackage.tar.gz
@@ -172,7 +134,7 @@ jobs:
           sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" smartdns/Makefile
           sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${commit_date}/" smartdns/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
-          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${checksum}/" smartdns/Makefile
+          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=x/" smartdns/Makefile
           sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=9999.${tagName/Release/}/" smartdns/Makefile
           git clone https://github.com/pymumu/smartdns-webui.git newPackageUi
           commit_sha=$(git -C newPackageUi rev-parse HEAD)

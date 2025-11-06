@@ -63,7 +63,7 @@ jobs:
       - name:  upload luci-app-${{ matrix.package }}
         uses: actions/upload-artifact@main
         with:
-          name: luci-app-${{ matrix.package }}-${{ matrix.arch }}
+          name: luci-app-${{ matrix.package }}-${{ matrix.arch }}-${{ matrix.release }}
           path: bin/
       
       - id: get-version
@@ -85,7 +85,7 @@ jobs:
       - name:  upload luci-app-${{ matrix.package }} repo
         uses: actions/upload-artifact@main
         with:
-          name: repo-luci-app-${{ matrix.package }}-${{ matrix.arch }}
+          name: repo-luci-app-${{ matrix.package }}-${{ matrix.arch }}-${{ matrix.release }}
           path: repo
       
       - name: send tg message
@@ -124,20 +124,34 @@ jobs:
           pattern: repo-*
           path: repo
           
-      - name: gen repo index
+      - name: gen ipk repo index
         run: |
           echo "${{ secrets.OPKG_PRIVATE }}" > private.key
           git clone https://github.com/openwrt/usign.git
           (cd usign && cmake . && make)
-          mkdir repo_to_upload
+          mkdir repo_to_upload/ipk -p
           echo "${{ secrets.OPKG_PUBLIC }}" > repo_to_upload/a6a65dcebb238998
-          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.ipk" -exec cp -ra {} ./repo_to_upload \;
+          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.ipk" -exec cp -ra {} ./repo_to_upload/ipk \;
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
-          find ./repo_to_upload -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
+          find ./repo_to_upload/ipk -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
             gzip -c $dir/Packages > $dir/Packages.gz
             usign/usign -S -m $dir/Packages -s private.key
           done
+
+      - name: run alpine
+        run: |
+          echo "${{ secrets.APK_PRIVATE }}" > apk.key
+          alpine=`docker run -itd -v $(pwd)/repo_to_upload:/repo_to_upload -v $(pwd)/apk.key:/apk.key alpine:3.20`
+          echo "export alpine=$alpine" >> $HOME/.profile
+          source $HOME/.profile
+          
+      - name: gen apk repo index
+        run: |
+          source $HOME/.profile
+          mkdir -p repo_to_upload/apk
+          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.apk" -exec cp -ra {} ./repo_to_upload/apk \;
+          docker exec -i for d in /repo_to_upload/apk/*/; do  find "$d" -maxdepth 1 -type f -name "*.apk" -print0 | xargs -0 apk index -o "$d/packages.adb";  done
           
       - name: upload pages
         uses: peaceiris/actions-gh-pages@v4
