@@ -24,6 +24,7 @@ jobs:
           - x86_64
         release:
           - openwrt-24.10
+          - snapshot
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +56,8 @@ jobs:
       - name: gen repo dir
         run: |
           mkdir repo/${{ matrix.release }}/${{ matrix.arch }} -p
-          cp -ra bin/packages/${{ matrix.arch }}/action/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }}
+          cp -ra bin/packages/${{ matrix.arch }}/action/*.ipk  repo/${{ matrix.release }}/${{ matrix.arch }} || true
+          cp -ra bin/packages/${{ matrix.arch }}/action/*.apk  repo/${{ matrix.release }}/${{ matrix.arch }} || true
           
       # 上传编译文件
       - name:  upload luci-app-${{ matrix.package }}
@@ -77,6 +79,7 @@ jobs:
           tag_name: "luci-app-${{ matrix.package }}-${{ steps.get-version.outputs.pkg_app_version }}"
           files: |
             bin/packages/${{ matrix.arch }}/action/*.ipk
+            bin/packages/${{ matrix.arch }}/action/*.apk
       
       # 上传pages文件
       - name:  upload luci-app-${{ matrix.package }} repo
@@ -128,7 +131,7 @@ jobs:
           (cd usign && cmake . && make)
           mkdir repo_to_upload
           echo "${{ secrets.OPKG_PUBLIC }}" > repo_to_upload/a6a65dcebb238998
-          find ./repo -maxdepth 2 -mindepth 2 -exec cp -ra {} ./repo_to_upload \;
+          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.ipk" -exec cp -ra {} ./repo_to_upload \;
           git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
           find ./repo_to_upload -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
             python3 opkg/opkg-make-index $dir > $dir/Packages
