@@ -2,6 +2,15 @@ name: Build Packages
 
 on:
   workflow_dispatch:
+    inputs:
+      ssh:
+            description: '是否开启ssh调试'
+            required: true
+            default: 'false'
+            type: choice
+            options:
+              - 'true'
+              - 'false'
 
 jobs:
   build:
@@ -123,20 +132,37 @@ jobs:
         with:
           pattern: repo-*
           path: repo
+      
+      - name: SSH connection to Actions
+        uses: P3TERX/ssh2actions@main
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           
       - name: gen ipk repo index
         run: |
-          echo "${{ secrets.OPKG_PRIVATE }}" > private.key
+          printf "%s" "${{ secrets.OPKG_PRIVATE }}" > private.key
           git clone https://github.com/openwrt/usign.git
           (cd usign && cmake . && make)
-          mkdir repo_to_upload/ipk -p
+          mkdir -p repo_to_upload/ipk
           echo "${{ secrets.OPKG_PUBLIC }}" > repo_to_upload/a6a65dcebb238998
-          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.ipk" -exec cp -ra {} ./repo_to_upload/ipk \;
-          git clone https://git.yoctoproject.org/opkg-utils --dept=1 opkg
-          find ./repo_to_upload/ipk -mindepth 1 -links 2 -type d -print0 | while IFS= read -r -d '' dir; do
-            python3 opkg/opkg-make-index $dir > $dir/Packages
-            gzip -c $dir/Packages > $dir/Packages.gz
-            usign/usign -S -m $dir/Packages -s private.key
+
+          find ./repo -maxdepth 4 -mindepth 4 -type f -name "*.ipk" | while read -r f; do
+            rel=$(echo "$f" | cut -d'/' -f4-)
+            mkdir -p "./repo_to_upload/$(dirname "$rel")"
+            cp -a "$f" "./repo_to_upload/$rel"
+          done
+
+          git clone --depth=1 https://git.yoctoproject.org/opkg-utils opkg
+
+          find ./repo_to_upload -mindepth 1 -type d -print0 | while IFS= read -r -d '' d; do
+            if find "$d" -maxdepth 1 -name "*.ipk" | grep -q .; then
+              echo "📦 $d"
+              python3 opkg/opkg-make-index "$d" > "$d/Packages"
+              gzip -c "$d/Packages" > "$d/Packages.gz"
+              usign/usign -S -m "$d/Packages" -s private.key
+            fi
           done
 
       - name: run alpine
@@ -150,8 +176,16 @@ jobs:
         run: |
           source $HOME/.profile
           mkdir -p repo_to_upload/apk
-          find ./repo -maxdepth 2 -mindepth 2 -type f -name "*.apk" -exec cp -ra {} ./repo_to_upload/apk \;
-          docker exec -i for d in /repo_to_upload/apk/*/; do  find "$d" -maxdepth 1 -type f -name "*.apk" -print0 | xargs -0 apk index -o "$d/packages.adb";  done
+          find ./repo -maxdepth 4 -mindepth 4 -type f -name "*.apk" | while read -r f; do
+            rel=$(echo "$f" | cut -d'/' -f4-)
+            mkdir -p "./repo_to_upload/$(dirname "$rel")"
+            cp -a "$f" "./repo_to_upload/$rel"
+          done
+          find ./repo_to_upload -mindepth 1 -type d -print0 | while IFS= read -r -d '' d; do
+            if find "$d" -maxdepth 1 -name "*.apk" | grep -q .; then
+              echo "📦 $d"
+            fi
+          done
           
       - name: upload pages
         uses: peaceiris/actions-gh-pages@v4
