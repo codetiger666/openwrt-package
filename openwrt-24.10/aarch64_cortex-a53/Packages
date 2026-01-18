@@ -1,0 +1,229 @@
+Lost field SourceName, base-scripts
+Lost field SourceDateEpoch, 1741756107
+Lost field Installed-Size, 10240
+Lost field SourceName, ddns-go
+Lost field Require-User, ddns-go:ddns-go
+Lost field SourceDateEpoch, 1768700847
+Lost field URL, https://github.com/jeessy2/ddns-go
+Lost field Installed-Size, 10608640
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1749013528
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1749013528
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1767159079
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 61440
+Lost field SourceName, luci-app-openlist
+Lost field SourceDateEpoch, 1751344485
+Lost field URL, https://github.com/openwrt/luci
+Lost field Installed-Size, 30720
+Lost field SourceName, luci-app-ddns-go
+Lost field SourceDateEpoch, 1749013528
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nezha
+Lost field SourceDateEpoch, 1749013528
+Lost field Installed-Size, 10240
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1767159079
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-nikki
+Lost field SourceDateEpoch, 1767159079
+Lost field Installed-Size, 20480
+Lost field SourceName, luci-app-openlist
+Lost field SourceDateEpoch, 1751344485
+Lost field Installed-Size, 10240
+Lost field SourceName, nezha
+Lost field Require-User, nezha:nezha
+Lost field SourceDateEpoch, 1768096122
+Lost field URL, https://github.com/nezhahq/agent
+Lost field Installed-Size, 16199680
+Lost field SourceName, nikki
+Lost field SourceDateEpoch, 1767159079
+Lost field URL, https://wiki.metacubex.one
+Lost field Installed-Size, 32532480
+Lost field SourceName, openlist
+Lost field SourceDateEpoch, 1751679073
+Lost field URL, https://openlist.team/
+Lost field Installed-Size, 77731840
+Package: base-scripts
+Version: 0.2-r1
+Depends: libc
+Section: utils
+Architecture: aarch64_cortex-a53
+MD5Sum: 5ddfc838152d59061091fbf29264cbb2
+Size: 1240
+Filename: base-scripts_0.2-r1_aarch64_cortex-a53.ipk
+Source: /feed/base-scripts
+Description: Some Scripts For Base.
+
+
+Package: ddns-go
+Version: 6.15.0-r1
+Depends: libc, ca-bundle, curl, yq, base-scripts
+Section: net
+Architecture: aarch64_cortex-a53
+MD5Sum: 4d88c82a145a9652f7d348be5e55da8f
+Size: 4134123
+Filename: ddns-go_6.15.0-r1_aarch64_cortex-a53.ipk
+Source: /feed/ddns-go
+Description: A Dynamic DNS Resolver in Go.
+
+
+Package: luci-app-ddns-go
+Version: 1.0.3-r1
+Depends: libc, luci-base, ddns-go
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 2aab1f9c684dfddb86bdb84e08e33b2c
+Size: 3223
+Filename: luci-app-ddns-go_1.0.3-r1_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: LuCI Support for DDNS GO
+
+
+Package: luci-app-nezha
+Version: 1.0.1-r1
+Depends: libc, luci-base, nezha, uuidgen
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 97200b73493d4a8f4cc03d8a84500c1f
+Size: 3202
+Filename: luci-app-nezha_1.0.1-r1_all.ipk
+Source: /feed/luci-app-nezha
+Description: LuCI Support for Nezha Agent
+
+
+Package: luci-app-nikki
+Version: 1.25.0-r1
+Depends: libc, luci-base, nikki
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: d9ff17c058f5e0bc887c9ac36d8545f3
+Size: 10366
+Filename: luci-app-nikki_1.25.0-r1_all.ipk
+Source: /feed/luci-app-nikki
+Description: LuCI Support for nikki
+
+
+Package: luci-app-openlist
+Version: 1.0.1-r1
+Depends: libc, openlist
+Section: luci
+Architecture: all
+Maintainer: OpenWrt LuCI community
+MD5Sum: 014f66634d68abf1e3c16d1d2d9ca06f
+Size: 5381
+Filename: luci-app-openlist_1.0.1-r1_all.ipk
+Source: /feed/luci-app-openlist
+Description: LuCI support for openlist
+
+
+Package: luci-i18n-ddns-go-zh-cn
+Version: 25.059.33702~453fa72
+Depends: libc, luci-app-ddns-go
+Section: luci
+Architecture: all
+MD5Sum: af6db42ad11c77a5cb63baa909357885
+Size: 1433
+Filename: luci-i18n-ddns-go-zh-cn_25.059.33702~453fa72_all.ipk
+Source: /feed/luci-app-ddns-go
+Description: Translation for luci-app-ddns-go - 简体中文 (Simplified Chinese)
+
+
+Package: luci-i18n-nezha-zh-cn
+Version: 25.061.05439~7e9466b
+Depends: libc, luci-app-nezha
+Section: luci
+Architecture: all
+MD5Sum: 9448021558c8e6baf2ffe159eb88cc82
+Size: 1499
+Filename: luci-i18n-nezha-zh-cn_25.061.05439~7e9466b_all.ipk
+Source: /feed/luci-app-nezha
+Description: Translation for luci-app-nezha - 简体中文 (Simplified Chinese)
+
+
+Package: luci-i18n-nikki-zh-cn
+Version: 25.365.19879~cd38107
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: 29fe614c46a2ded755236e28851da1a5
+Size: 5088
+Filename: luci-i18n-nikki-zh-cn_25.365.19879~cd38107_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 简体中文 (Simplified Chinese)
+
+
+Package: luci-i18n-nikki-zh-tw
+Version: 25.365.19879~cd38107
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+MD5Sum: 9f057991b6490368bcb92ba885c87d62
+Size: 5143
+Filename: luci-i18n-nikki-zh-tw_25.365.19879~cd38107_all.ipk
+Source: /feed/luci-app-nikki
+Description: Translation for luci-app-nikki - 正體中文 (Traditional Chinese)
+
+
+Package: luci-i18n-openlist-zh-cn
+Version: 25.176.32786~2ca5d05
+Depends: libc, luci-app-openlist
+Section: luci
+Architecture: all
+MD5Sum: a720684c93df4c24c32ea3ebaa8a90e4
+Size: 2999
+Filename: luci-i18n-openlist-zh-cn_25.176.32786~2ca5d05_all.ipk
+Source: /feed/luci-app-openlist
+Description: Translation for luci-app-openlist - 简体中文 (Simplified Chinese)
+
+
+Package: nezha
+Version: 1.14.4-r1
+Depends: libc, ca-bundle, curl, yq, base-scripts
+Section: net
+Architecture: aarch64_cortex-a53
+MD5Sum: fe62d16c81bd0baf4ce378c988e2dac5
+Size: 6108576
+Filename: nezha_1.14.4-r1_aarch64_cortex-a53.ipk
+Source: /feed/nezha
+Description: A monitor in Go.
+
+
+Package: nikki
+Version: 2025.12.21-r1
+Depends: libc, ca-bundle, curl, yq, firewall4, ip-full, kmod-inet-diag, kmod-nft-socket, kmod-nft-tproxy, kmod-tun
+Provides: mihomo
+Section: net
+Architecture: aarch64_cortex-a53
+Maintainer: Joseph Mory <morytyann@gmail.com>
+MD5Sum: 2146904be7dc9a36a18055ac3ddda027
+Size: 11613830
+Filename: nikki_2025.12.21-r1_aarch64_cortex-a53.ipk
+Source: /feed/nikki
+Description: A rule based proxy in Go.
+License: GPL3.0+
+
+
+Package: openlist
+Version: 4.0.8-r1
+Depends: libc, ca-bundle
+Section: net
+Architecture: aarch64_cortex-a53
+Maintainer: sbwml <admin@cooluc.com>
+MD5Sum: 9776634343fc948bf5723a49540a5afa
+Size: 25654100
+Filename: openlist_4.0.8-r1_aarch64_cortex-a53.ipk
+Source: /feed/openlist
+Description: A file list program that supports multiple storage, powered by Gin and Solidjs.
+License: GPL-3.0
+
+
