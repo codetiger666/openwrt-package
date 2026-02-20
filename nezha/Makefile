@@ -59,7 +59,7 @@ endef
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	(cd $(PKG_BUILD_DIR) && \
-		go mod tidy -v)
+		$(STAGING_DIR_HOST)/bin/go mod tidy -v)
 endef
 
 define Build/Compile
