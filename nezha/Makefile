@@ -58,8 +58,6 @@ endef
 # 新增预处理段
 define Build/Prepare
 	$(call Build/Prepare/Default)
-	(cd $(PKG_BUILD_DIR) && \
-		$(STAGING_DIR_HOST)/bin/go mod tidy -v)
 endef
 
 define Build/Compile
