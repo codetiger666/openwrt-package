@@ -97,6 +97,16 @@ return view.extend({
         o = s.option(form.DynamicList, 'nic_list', _('Interfaces To Monitor'));
         o.rmempty = true;
         
+        s = m.section(form.TypedSection, 'custom', _('Custom Configuration'));
+        s.anonymous = true;
+
+        o = s.option(form.TextValue, 'custom_config', _('Custom YAML Config'));
+        o.default = '';
+        o.rmempty = true;
+        o.rows = 15;
+        o.wrap = 'off';
+        o.description = _('Enter custom YAML configuration to override agent.yaml settings. Each line will be appended to the configuration file.');
+        
         return m.render();
     },
 });

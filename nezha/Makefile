@@ -53,6 +53,7 @@ endef
 define Package/nezha/conffiles
 /etc/config/nezha
 /etc/nezha/agent.yaml
+/etc/nezha/custom.yaml
 endef
 
 # 新增预处理段
