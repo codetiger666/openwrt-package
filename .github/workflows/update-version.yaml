@@ -138,6 +138,7 @@ jobs:
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=x/" smartdns/Makefile
           sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=9999.${tagName/Release/}/" smartdns/Makefile
+          sed -i "s/DEPENDS:=+libpthread +libopenssl +libatomic/DEPENDS:=+libpthread +libopenssl +libatomic +zlib/" smartdns/Makefile
           git clone https://github.com/pymumu/smartdns-webui.git newPackageUi
           commit_sha=$(git -C newPackageUi rev-parse HEAD)
           sed -i "s/SMARTDNS_WEBUI_SOURCE_VERSION:=.*/SMARTDNS_WEBUI_SOURCE_VERSION:=${commit_sha}/" smartdns/Makefile
