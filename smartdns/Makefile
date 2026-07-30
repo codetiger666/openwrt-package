@@ -17,7 +17,7 @@ PKG_MIRROR_HASH:=x
 SMARTDNS_WEBUI_VERSION:=1.0.0
 SMAETDNS_WEBUI_SOURCE_PROTO:=git
 SMARTDNS_WEBUI_SOURCE_URL:=https://github.com/pymumu/smartdns-webui.git
-SMARTDNS_WEBUI_SOURCE_VERSION:=fc128b689cbf13b7282ccf6aa2e38747eabe0d32
+SMARTDNS_WEBUI_SOURCE_VERSION:=1c06fee693434ec7c71f06010d3f87416baba9f0
 SMARTDNS_WEBUI_FILE:=smartdns-webui-$(SMARTDNS_WEBUI_VERSION).tar.gz
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
@@ -46,7 +46,7 @@ endef
 define Package/smartdns
   $(Package/smartdns/default)
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl +libatomic
+  DEPENDS:=+libpthread +libopenssl +libatomic +zlib
 endef
 
 define Package/smartdns/description
