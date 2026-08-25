@@ -23,7 +23,6 @@ jobs:
         package:
           - nezha
           - nikki
-          - smartdns
           - ddns-go
           - openlist
         arch:
